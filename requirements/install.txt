@@ -1,0 +1,7 @@
+# these are dependencies required to use the package
+# ought to mirror 'install_requires' under 'options' in setup.cfg
+-r build.txt
+PySide6 >= 6.5.0
+tomli; python_version < '3.11'
+tomli_w
+qtawesome

@@ -1,0 +1,8 @@
+# all dependencies required to build, run, test, and document bapsf_qt
+# * look to the specific requirements/*.txt for specific needs
+# * this will mimic `pip install bapsf_qt[developer]` (excluding bapsf_qt)
+-r requirements/build.txt
+-r requirements/install.txt
+-r requirements/tests.txt
+-r requirements/docs.txt
+-r requirements/extras.txt
