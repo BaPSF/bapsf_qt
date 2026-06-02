@@ -4,7 +4,12 @@ A collection of utility functionality to help build `PySide6` GUIs.
 
 from __future__ import annotations
 
-__all__ = ["cast_color_to_rgba_string", "get_color_scheme", "get_qapplication"]
+__all__ = [
+    "cast_color_to_rgba_string",
+    "get_color_scheme",
+    "get_qapplication",
+    "icon_name_dict",
+]
 
 import ast
 
@@ -12,6 +17,8 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QApplication
 from typing import TYPE_CHECKING
+
+from bapsf_qt.utils.icons import icon_name_dict
 
 if TYPE_CHECKING:
     from PySide6.QtCore import Qt
