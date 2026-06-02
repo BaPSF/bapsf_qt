@@ -3,6 +3,7 @@ __all__ = [
     "DiscardButton",
     "DoneButton",
     "GearButton",
+    "GearValidButton",
     "IconButton",
     "StyleButton",
     "ValidButton",
@@ -10,4 +11,4 @@ __all__ = [
 
 from bapsf_qt.buttons.core import AutoScaleButton, StyleButton, ValidButton
 from bapsf_qt.buttons.designed import DiscardButton, DoneButton
-from bapsf_qt.buttons.iconic import IconButton, GearButton
+from bapsf_qt.buttons.iconic import IconButton, GearButton, GearValidButton
