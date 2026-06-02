@@ -4,10 +4,11 @@ Foundational / core buttons.  These inherit directly from
 button classes.
 """
 
-__all__ = ["AutoScaleButton", "StyleButton"]
+__all__ = ["AutoScaleButton", "StyleButton", "ValidButton"]
 
 import math
 
+from PySide6.QtCore import Slot
 from PySide6.QtGui import QFontMetrics, QFont
 from PySide6.QtWidgets import QPushButton
 
@@ -188,3 +189,40 @@ class AutoScaleButton(StyleButton):
     def shrink_width(self, scale: float = 1.0):
         target_width = self._calculate_target_width(scale=scale)
         self.setFixedWidth(target_width)
+
+
+class ValidButton(StyleButton):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self._is_valid = False
+
+        self.update_style_sheet(
+            styles={"background-color": "rgb(95, 95, 95)"},
+            action="pressed",
+        )
+        self.update_style_sheet(
+            styles={"background-color": "rgb(123, 123, 123)"},
+            action="checked",
+        )  # checked state is the valid state
+
+        self.setCheckable(True)
+        self.clicked.connect(self._enforce_checked_state)
+
+    @property
+    def is_valid(self):
+        return self._is_valid
+
+    def setCheckable(self, arg__1):
+        super().setCheckable(True)
+
+    def set_valid(self, state: bool = True):
+        self.setChecked(state)
+        self._is_valid = state
+
+    def set_invalid(self):
+        self.set_valid(False)
+
+    @Slot()
+    def _enforce_checked_state(self):
+        self.setChecked(self.is_valid)
