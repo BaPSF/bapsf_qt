@@ -1,8 +1,20 @@
-__all__ = ["cast_color_to_rgba_string"]
+__all__ = ["cast_color_to_rgba_string", "get_qapplication"]
 
 import ast
 
+from PySide6.QtCore import QCoreApplication
 from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QApplication
+
+
+def get_qapplication() -> QCoreApplication | None:
+    """
+    Get the current active instance of
+    `~PySide6.QtWidgets.QApplication`.  This is a convinces function
+    to `~PySide6.QtCore.QCoreApplication.instance`.
+    """
+    app = QApplication.instance()
+    return app
 
 
 def cast_color_to_rgba_string(color: QColor | str) -> str:
