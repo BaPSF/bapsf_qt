@@ -4,7 +4,7 @@ Foundational / core buttons.  These inherit directly from
 button classes.
 """
 
-__all__ = ["StyleButton"]
+__all__ = ["AutoScaleButton", "StyleButton"]
 
 import math
 
@@ -123,7 +123,7 @@ class StyleButton(QPushButton):
         self._resetStyleSheet()
 
 
-class BannerButton(StyleButton):
+class AutoScaleButton(StyleButton):
 
     def __init__(self, *args, **kwargs):
         self._max_font_height_ratio = 0.8

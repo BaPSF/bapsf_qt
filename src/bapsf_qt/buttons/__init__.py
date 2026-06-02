@@ -1,3 +1,3 @@
-__all__ = ["StyleButton"]
+__all__ = ["AutoScaleButton", "StyleButton"]
 
-from bapsf_qt.buttons.core import StyleButton
+from bapsf_qt.buttons.core import AutoScaleButton, StyleButton
