@@ -26,14 +26,14 @@ try:
     __version__ = version("bapsf_qt")
 except PackageNotFoundError:
     # package is not installed
-    fallback_version = "unknown"
+    fallback_version = "0.0.0-UNKNOWN"
     try:
         # code most likely being used from source
         # if setuptools_scm is installed then generate a version
         from setuptools_scm import get_version
 
         __version__ = get_version(
-            root="../", relative_to=__file__, fallback_version=fallback_version
+            root="../../", relative_to=__file__, fallback_version="0.0.0"
         )
         del get_version
         warn_add = "setuptools_scm failed to detect the version"
@@ -42,7 +42,8 @@ except PackageNotFoundError:
         __version__ = fallback_version
         warn_add = "setuptools_scm is not installed"
 
-    if __version__ == fallback_version:
+    if __version__ == "0.0.0":
+        __version__ = fallback_version
         from warnings import warn
 
         warn(
