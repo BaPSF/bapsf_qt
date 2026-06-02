@@ -81,6 +81,6 @@ def cast_color_to_rgba_string(color: QColor | str) -> str:
         color = QColor(*args)
         color.setAlpha(255)
     else:
-        raise ValueError("Unable to cast color {color}.")
+        raise ValueError(f"Unable to cast color {color}.")
 
     return f"rgba{color.getRgb()}"
