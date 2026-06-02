@@ -11,6 +11,8 @@ if sys.version_info < (3, 10):  # coverage: ignore
 
 from importlib.metadata import PackageNotFoundError, version
 
+from bapsf_qt import buttons
+
 # define version
 try:
     # this places a runtime dependency on setuptools
