@@ -16,7 +16,7 @@ class StyleButton(QPushButton):
 
         self._default_base_style = {
             "border-radius": "4px",
-            f"border": f"2px solid rgb(123, 123, 123)",
+            "border": "2px solid rgb(123, 123, 123)",
             "background-color": "rgb(163, 163, 163)",
             "color": "rgb(50, 50, 50)",
         }
