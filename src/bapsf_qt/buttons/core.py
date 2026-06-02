@@ -6,6 +6,9 @@ button classes.
 
 __all__ = ["StyleButton"]
 
+import math
+
+from PySide6.QtGui import QFontMetrics, QFont
 from PySide6.QtWidgets import QPushButton
 
 
@@ -118,3 +121,70 @@ class StyleButton(QPushButton):
             self._disabled_style = {**_style, **styles}
 
         self._resetStyleSheet()
+
+
+class BannerButton(StyleButton):
+
+    def __init__(self, *args, **kwargs):
+        self._max_font_height_ratio = 0.8
+
+        super().__init__(*args, **kwargs)
+
+        self.setFixedHeight(48)
+        font = self.font()
+        font.setPixelSize(24)
+        font.setBold(True)
+        self.setFont(font)
+
+        _text = self.text()
+        self.setText(_text)
+
+    def _calculate_target_width(
+        self,
+        text: str | None = None,
+        scale: float = 1.0,
+    ):
+        if text is None:
+            text = self.text()
+
+        font = self.font()
+        fm = QFontMetrics(font)
+        _length = fm.horizontalAdvance(text)
+        _padding = 2 * math.ceil(0.5 * scale * (self.height() - fm.height()))
+        return _length + _padding
+
+    def setText(self, text: str):
+        super().setText(text)
+
+        # allow larger width than the one calculated
+        new_width = self._calculate_target_width(text)
+        width = new_width if new_width >= self.width() else self.width()
+        self.setFixedWidth(width)
+
+    def setFont(self, font: QFont):
+        ratio = font.pointSize() / self.height()
+        if ratio > self._max_font_height_ratio:
+            # automatically shrink font if too large for height
+            font_size = math.floor(self._max_font_height_ratio * self.height())
+            font.setPointSize(font_size)
+        super().setFont(font)
+
+        _txt = self.text()
+        self.setText(_txt)
+
+    def setFixedHeight(self, h: int):
+        ratio = self.font().pixelSize() / h
+        if ratio > self._max_font_height_ratio:
+            # automatically shrink font if too large for given height
+            font_size = math.floor(self._max_font_height_ratio * h)
+            font = self.font()
+            font.setPointSize(font_size)
+            self.setFont(font)
+
+        super().setFixedHeight(h)
+        _txt = self.text()
+        self.setText(_txt)
+
+    def shrink_width(self, scale: float = 1.0):
+        target_width = self._calculate_target_width(scale=scale)
+        self.setFixedWidth(target_width)
