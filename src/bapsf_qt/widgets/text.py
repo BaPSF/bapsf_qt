@@ -1,8 +1,13 @@
+"""
+A collection of text (edit) based PySidde6 widgets.
+"""
+__all__ = ["QLineEditPayload"]
+
 from PySide6.QtCore import Signal, Slot
 from PySide6.QtWidgets import QLineEdit
 
 
-class QLineEditSpecialized(QLineEdit):
+class QLineEditPayload(QLineEdit):
     editingFinishedPayload = Signal(object)
 
     def __init__(self, *args, **kwargs):
