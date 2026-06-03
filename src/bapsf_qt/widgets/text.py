@@ -1,5 +1,5 @@
 """
-A collection of text (edit) based PySidde6 widgets.
+A collection of text (edit) based `PySide6` widgets.
 """
 __all__ = ["QLineEditPayload"]
 
