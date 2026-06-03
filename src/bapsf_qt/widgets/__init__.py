@@ -9,9 +9,10 @@ __all__ = [
     "VLinePlain",
     "QTAIconLabel",
     "QLogHandler",
+    "QLogger",
 ]
 
 from bapsf_qt.widgets.text import QLineEditPayload
 from bapsf_qt.widgets.styling import HLinePlain, VLinePlain, QTAIconLabel
 from bapsf_qt.widgets.validators import IPv4Validator
-from bapsf_qt.widgets.logging import QLogHandler
+from bapsf_qt.widgets.logging import QLogHandler, QLogger
