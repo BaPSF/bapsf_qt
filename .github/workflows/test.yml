@@ -44,6 +44,7 @@ jobs:
         run: |
           sudo apt update && sudo apt install -y libegl1-mesa-dev
       - name: Import 'bapsf_qt'
+        working-directory: ./src
         run: |
           python -c 'import bapsf_qt'
 
