@@ -17,9 +17,6 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: read
-
 jobs:
   deploy:
 
@@ -31,6 +28,7 @@ jobs:
 
     permissions:
       id-token: write
+      contents: read
 
     steps:
     - uses: actions/checkout@v6
