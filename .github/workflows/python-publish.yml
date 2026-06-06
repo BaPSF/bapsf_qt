@@ -17,6 +17,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
 
