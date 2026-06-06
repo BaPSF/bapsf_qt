@@ -2,6 +2,7 @@
 `PySide6` widgets for displaying messages issued by the Python
 `logging` package.
 """
+
 __all__ = ["QLogHandler", "QLogger"]
 
 import logging
@@ -250,7 +251,7 @@ class DemoQLogger(QMainWindow):
         label.setFont(font)
         layout.addWidget(
             label,
-            alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop
+            alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop,
         )
 
         layout.addSpacing(24)

@@ -1,6 +1,7 @@
 """
 A collection of `PySide6` `~PySide6.QtGui.QValidator` sub-class widgets.
 """
+
 __all__ = ["IPv4Validator"]
 
 import logging

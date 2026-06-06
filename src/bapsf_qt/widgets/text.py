@@ -1,6 +1,7 @@
 """
 A collection of text (edit) based `PySide6` widgets.
 """
+
 __all__ = ["QLineEditPayload"]
 
 from PySide6.QtCore import Signal, Slot

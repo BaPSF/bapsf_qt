@@ -1,6 +1,7 @@
 """
 Buttons designed with an icon display.
 """
+
 __all__ = ["IconButton", "GearButton", "GearValidButton"]
 
 from PySide6.QtCore import QSize

@@ -1,6 +1,7 @@
 """
 A collection of styling (non-active) based `PySide6` widgets.
 """
+
 from __future__ import annotations
 
 __all__ = ["HLinePlain", "VLinePlain", "QTAIconLabel"]
@@ -72,7 +73,7 @@ class VLinePlain(QFrame):
 
 
 class QTAIconLabel(QLabel):
-    def __init__(self, icon_name: str, parent : QWidget | None = None):
+    def __init__(self, icon_name: str, parent: QWidget | None = None):
         super().__init__(parent=parent)
 
         self._icon_name = None

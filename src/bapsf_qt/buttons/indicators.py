@@ -1,6 +1,7 @@
 """
 Buttons that act as inddicators.
 """
+
 __all__ = ["EnableIndicator", "LED"]
 
 import math

@@ -1,6 +1,7 @@
 """
 Buttons design for a specific purpose.
 """
+
 __all__ = ["DiscardButton", "DoneButton", "StopButton", "ZeroButton"]
 
 from bapsf_qt.buttons.core import AutoScaleButton, StyleButton
