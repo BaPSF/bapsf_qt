@@ -11,7 +11,7 @@ if sys.version_info < (3, 10):  # coverage: ignore
 
 from importlib.metadata import PackageNotFoundError, version
 
-from bapsf_qt import buttons
+from bapsf_qt import buttons, utils, widgets
 
 # define version
 try:
