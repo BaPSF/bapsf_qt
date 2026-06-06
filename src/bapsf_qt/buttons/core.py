@@ -9,7 +9,7 @@ __all__ = ["AutoScaleButton", "StyleButton", "ValidButton"]
 import math
 
 from PySide6.QtCore import Slot
-from PySide6.QtGui import QFontMetrics, QFont
+from PySide6.QtGui import QFont, QFontMetrics
 from PySide6.QtWidgets import QPushButton
 
 
