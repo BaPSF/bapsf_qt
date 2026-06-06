@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  import-bapsf_motion:
+  import-bapsf_qt:
     name: Importing bapsf_qt
     runs-on: ${{ matrix.os }}
     strategy:
