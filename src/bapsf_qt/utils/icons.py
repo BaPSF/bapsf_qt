@@ -26,3 +26,4 @@ def _build_icon_name_dictionary():
 
 
 icon_name_dict = _build_icon_name_dictionary()
+"""Dictionary mapping simple icon names to `qtawesome` icon names."""
