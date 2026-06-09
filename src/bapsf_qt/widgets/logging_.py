@@ -10,6 +10,7 @@ import logging.config
 
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import (
+    QCheckBox,
     QComboBox,
     QFrame,
     QGridLayout,
@@ -20,6 +21,7 @@ from PySide6.QtWidgets import (
     QPlainTextEdit,
     QSizePolicy,
     QSlider,
+    QSpacerItem,
     QTextEdit,
     QVBoxLayout,
     QWidget,
@@ -204,6 +206,7 @@ class DemoQLogger(QMainWindow):
         self.message_input = self._init_message_input()
         self.log_level_select = self._init_log_level_select()
         self.qlogger = self._init_qlogger()
+        self.auto_log_cb = self._init_auto_log_cb()
 
         self._define_main_window()
 
@@ -238,6 +241,14 @@ class DemoQLogger(QMainWindow):
         )
         return qlogger
 
+    def _init_auto_log_cb(self) -> QCheckBox:
+        auto_log_cb = QCheckBox("Generate Auto-Log Messages", parent=self)
+        font = auto_log_cb.font()
+        font.setPointSize(12)
+        auto_log_cb.setFont(font)
+        auto_log_cb.setCheckState(Qt.CheckState.Unchecked)
+        return auto_log_cb
+
     def _connect_signals(self) -> None:
         self.message_input.returnPressed.connect(self.enter_log)
 
@@ -258,10 +269,20 @@ class DemoQLogger(QMainWindow):
         header_label = label
 
         label = QLabel("Message:  ")
-        label.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
-        label.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        font = label.font()
+        font.setPointSize(12)
+        label.setFont(font)
+
+        cb_layout = QHBoxLayout()
+        cb_layout.setContentsMargins(0, 0, 0, 0)
+        cb_layout.addSpacerItem(
+            QSpacerItem(78, 0, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        )
+        cb_layout.addWidget(self.auto_log_cb)
+        cb_layout.addStretch(1)
 
         input_layout = QHBoxLayout()
+        input_layout.setContentsMargins(0, 0, 0, 0)
         input_layout.addWidget(label)
         input_layout.addWidget(self.message_input)
         input_layout.addWidget(self.log_level_select)
@@ -286,6 +307,8 @@ class DemoQLogger(QMainWindow):
             alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop,
         )
         layout.addSpacing(24)
+        layout.addLayout(cb_layout)
+        layout.addSpacing(8)
         layout.addLayout(input_layout)
         layout.addSpacing(24)
         layout.addWidget(qlogger_frame)
