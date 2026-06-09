@@ -134,13 +134,14 @@ class QLogger(QWidget):
         slider.setValue(2)  # logging.INFO
         return slider
 
-    def _init_log_widget(self) -> QTextEdit:
-        log_widget = QTextEdit(parent=self)
+    def _init_log_widget(self) -> QPlainTextEdit:
+        log_widget = QPlainTextEdit(parent=self)
         log_widget.setReadOnly(True)
         font = log_widget.font()
         font.setPointSize(10)
         font.setFamily("Courier New")
         log_widget.setFont(font)
+        log_widget.setUndoRedoEnabled(False)
         return log_widget
 
     def _connect_signals(self) -> None:
