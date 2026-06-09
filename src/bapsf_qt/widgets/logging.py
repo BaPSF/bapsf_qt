@@ -200,8 +200,10 @@ class DemoQLogger(QMainWindow):
         logging.config.dictConfig(self._logging_config_dict)
         self._logger = logging.getLogger(":: GUI ::")
 
-        self.message_input = QLineEdit(parent=self)
-        self.log_level_select = QComboBox(parent=self)
+        # Instantiate widgers
+        self.message_input = self._init_message_input()
+        self.log_level_select = self._init_log_level_select()
+        self.qlogger = self._init_qlogger()
 
         self._define_main_window()
 
@@ -210,6 +212,31 @@ class DemoQLogger(QMainWindow):
         self.setCentralWidget(widget)
 
         self._connect_signals()
+
+    def _init_message_input(self) -> QLineEdit:
+        message_input = QLineEdit(parent=self)
+        message_input.setAlignment(
+            Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft
+        )
+        message_input.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        )
+        return message_input
+
+    def _init_log_level_select(self) -> QComboBox:
+        log_level_select = QComboBox(parent=self)
+        log_level_select.addItems(list(QLogger._verbosity.keys()))
+        log_level_select.setEditable(False)
+        log_level_select.setCurrentText(log_level_select.itemText(0))
+        return log_level_select
+
+    def _init_qlogger(self) -> QLogger:
+        qlogger = QLogger(self._logger, parent=self)
+        qlogger.setSizePolicy(
+            QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Ignored,
+        )
+        return qlogger
 
     def _connect_signals(self) -> None:
         self.message_input.returnPressed.connect(self.enter_log)
@@ -241,17 +268,8 @@ class DemoQLogger(QMainWindow):
         label.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sublayout.addWidget(label)
 
-        self.message_input.setAlignment(
-            Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft
-        )
-        self.message_input.setSizePolicy(
-            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
-        )
         sublayout.addWidget(self.message_input)
 
-        self.log_level_select.addItems(list(QLogger._verbosity.keys()))
-        self.log_level_select.setEditable(False)
-        self.log_level_select.setCurrentText(self.log_level_select.itemText(0))
         sublayout.addWidget(self.log_level_select)
 
         layout.addLayout(sublayout)
@@ -265,12 +283,7 @@ class DemoQLogger(QMainWindow):
         layout.addWidget(hline)
 
         # add logger
-        log_widget = QLogger(self.logger)
-        log_widget.setSizePolicy(
-            QSizePolicy.Policy.Preferred,
-            QSizePolicy.Policy.Ignored,
-        )
-        layout.addWidget(log_widget)
+        layout.addWidget(self.qlogger)
 
         return layout
 
