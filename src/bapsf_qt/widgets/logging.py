@@ -70,6 +70,9 @@ class QLogger(QWidget):
     ):
         super().__init__(parent=parent)
 
+        # instantiate logger
+        if not isinstance(logger, logging.Logger):
+            logger = logging.getLogger("QLogger")
         self._logger = logger  # type: logging.Logger
 
         # Initialize Widgets
