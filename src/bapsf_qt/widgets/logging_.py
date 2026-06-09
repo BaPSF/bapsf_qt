@@ -209,6 +209,7 @@ class DemoQLogger(QMainWindow):
         self.qlogger = self._init_qlogger()
         self.auto_log_cb = self._init_auto_log_cb()
         self.auto_log_timer = QTimer(parent=self, singleShot=True)
+        self.auto_log_counter = 1
 
         self._define_main_window()
 
@@ -365,7 +366,8 @@ class DemoQLogger(QMainWindow):
 
     @Slot()
     def _make_auto_log_entry(self):
-        self.logger.info("--- auto log entry ---")
+        self.logger.info(f"--- auto log entry {self.auto_log_counter} ---")
+        self.auto_log_counter += 1
 
         check_state = self.auto_log_cb.isChecked()
         if check_state:
