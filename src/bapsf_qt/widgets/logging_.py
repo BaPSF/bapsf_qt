@@ -68,6 +68,7 @@ class QLogger(QWidget):
     def __init__(
         self,
         logger: logging.Logger,
+        max_block_count: int = 2000,
         parent: QWidget | None = None,
     ):
         super().__init__(parent=parent)
@@ -82,6 +83,9 @@ class QLogger(QWidget):
         self.slider_labels = self._init_slider_labels()
         self.slider_widget = self._init_slider_widget()
         self.log_widget = self._init_log_widget()
+
+        if isinstance(max_block_count, int) and max_block_count > 0:
+            self.log_widget.setMaximumBlockCount(max_block_count)
 
         # setup log handler
         # - this needs to happen after slider_widget and log_widget is initialized
