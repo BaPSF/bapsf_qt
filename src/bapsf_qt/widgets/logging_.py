@@ -209,6 +209,7 @@ class DemoQLogger(QMainWindow):
         self.qlogger = self._init_qlogger()
         self.auto_log_cb = self._init_auto_log_cb()
         self.auto_log_timer = QTimer(parent=self, singleShot=True)
+        self.auto_log_interval = 100  # in msec
         self.auto_log_counter = 1
 
         self._define_main_window()
@@ -372,7 +373,7 @@ class DemoQLogger(QMainWindow):
         check_state = self.auto_log_cb.isChecked()
         if check_state:
             # keep the auto log runing
-            self.auto_log_timer.start(1000)
+            self.auto_log_timer.start(self.auto_log_interval)
 
     @Slot()
     def start_stop_auto_log(self):
@@ -386,7 +387,7 @@ class DemoQLogger(QMainWindow):
 
         # timer is not active and needs to be started
         if not timer_active and check_state:
-            self.auto_log_timer.start(1000)
+            self.auto_log_timer.start(self.auto_log_interval)
             return
 
         # the other two case need no further action
