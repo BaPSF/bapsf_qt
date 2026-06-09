@@ -202,8 +202,8 @@ class DemoQLogger(QMainWindow):
 
         self._define_main_window()
 
-        self._level_widget = QComboBox()
         self.message_input = QLineEdit(parent=self)
+        self.log_level_select = QComboBox(parent=self)
 
         layout = self._define_layout()
 
@@ -319,8 +319,8 @@ class DemoQLogger(QMainWindow):
 
     @Slot()
     def enter_log(self):
-        lvl_key = self._level_widget.currentText()
         message = self.message_input.text()
+        lvl_key = self.log_level_select.currentText()
         level = QLogger._verbosity[lvl_key]
 
         self.logger.log(level=level, msg=message)
