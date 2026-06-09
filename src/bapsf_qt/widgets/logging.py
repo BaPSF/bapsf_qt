@@ -213,6 +213,69 @@ class DemoQLogger(QMainWindow):
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
+    def _connect_signals(self) -> None:
+        ...
+
+    def _define_main_window(self):
+        self.setWindowTitle("Log Widget Tester")
+        self.resize(800, 900)
+        self.setMinimumHeight(600)
+
+    def _define_layout(self):
+        layout = QVBoxLayout()
+
+        # first row: Title
+        label = QLabel("DEMO: QLogger")
+        font = label.font()
+        font.setPointSize(14)
+        font.setBold(True)
+        label.setFont(font)
+        layout.addWidget(
+            label,
+            alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop,
+        )
+
+        layout.addSpacing(24)
+
+        sublayout = QHBoxLayout()
+        label = QLabel("Message:  ")
+        label.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
+        label.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sublayout.addWidget(label)
+
+        self.message_input.setAlignment(
+            Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft
+        )
+        self.message_input.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
+        )
+        sublayout.addWidget(self.message_input)
+
+        self.log_level_select.addItems(list(QLogger._verbosity.keys()))
+        self.log_level_select.setEditable(False)
+        self.log_level_select.setCurrentText(self.log_level_select.itemText(0))
+        sublayout.addWidget(self.log_level_select)
+
+        layout.addLayout(sublayout)
+
+        layout.addSpacing(24)
+
+        # divider
+        hline = QFrame()
+        hline.setFrameShape(QFrame.Shape.HLine)
+        hline.setMidLineWidth(3)
+        layout.addWidget(hline)
+
+        # add logger
+        log_widget = QLogger(self.logger)
+        log_widget.setSizePolicy(
+            QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Ignored,
+        )
+        layout.addWidget(log_widget)
+
+        return layout
+
     @property
     def _logging_config_dict(self):
         return {
@@ -256,66 +319,6 @@ class DemoQLogger(QMainWindow):
     @property
     def logger(self) -> logging.Logger:
         return self._logger
-
-    def _define_main_window(self):
-        self.setWindowTitle("Log Widget Tester")
-        self.resize(800, 900)
-        self.setMinimumHeight(600)
-
-    def _define_layout(self):
-        layout = QVBoxLayout()
-
-        # first row: Title
-        label = QLabel("DEMO: QLogger")
-        font = label.font()
-        font.setPointSize(14)
-        font.setBold(True)
-        label.setFont(font)
-        layout.addWidget(
-            label,
-            alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop,
-        )
-
-        layout.addSpacing(24)
-
-        sublayout = QHBoxLayout()
-        label = QLabel("Message:  ")
-        label.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
-        label.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
-        sublayout.addWidget(label)
-
-        self._msg_widget.setAlignment(
-            Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft
-        )
-        self._msg_widget.setSizePolicy(
-            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed
-        )
-        sublayout.addWidget(self._msg_widget)
-
-        self._level_widget.addItems(list(QLogger._verbosity.keys()))
-        self._level_widget.setEditable(False)
-        self._level_widget.setCurrentText(self._level_widget.itemText(0))
-        sublayout.addWidget(self._level_widget)
-
-        layout.addLayout(sublayout)
-
-        layout.addSpacing(24)
-
-        # divider
-        hline = QFrame()
-        hline.setFrameShape(QFrame.Shape.HLine)
-        hline.setMidLineWidth(3)
-        layout.addWidget(hline)
-
-        # add logger
-        log_widget = QLogger(self.logger)
-        log_widget.setSizePolicy(
-            QSizePolicy.Policy.Preferred,
-            QSizePolicy.Policy.Ignored,
-        )
-        layout.addWidget(log_widget)
-
-        return layout
 
     @Slot()
     def enter_log(self):
