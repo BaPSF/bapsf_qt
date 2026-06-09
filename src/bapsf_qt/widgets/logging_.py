@@ -26,8 +26,6 @@ from PySide6.QtWidgets import (
 )
 from typing import List
 
-from bapsf_qt.widgets.styling import HLinePlain
-
 
 class QLogHandler(logging.Handler):
 
@@ -244,48 +242,53 @@ class DemoQLogger(QMainWindow):
         self.message_input.returnPressed.connect(self.enter_log)
 
     def _define_main_window(self):
-        self.setWindowTitle("Log Widget Tester")
+        self.setWindowTitle("DEMO QLogger")
         self.resize(800, 900)
         self.setMinimumHeight(600)
+        self.setContentsMargins(12, 12, 12, 12)
 
     def _define_layout(self):
-        layout = QVBoxLayout()
 
         # first row: Title
-        label = QLabel("DEMO: QLogger")
+        label = QLabel("DEMO    QLogger")
         font = label.font()
         font.setPointSize(14)
         font.setBold(True)
         label.setFont(font)
-        layout.addWidget(
-            label,
-            alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop,
-        )
+        header_label = label
 
-        layout.addSpacing(24)
-
-        sublayout = QHBoxLayout()
         label = QLabel("Message:  ")
         label.setAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignLeft)
         label.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
-        sublayout.addWidget(label)
 
-        sublayout.addWidget(self.message_input)
-
-        sublayout.addWidget(self.log_level_select)
-
-        layout.addLayout(sublayout)
-
-        layout.addSpacing(24)
-
-        # divider
-        hline = QFrame()
-        hline.setFrameShape(QFrame.Shape.HLine)
-        hline.setMidLineWidth(3)
-        layout.addWidget(hline)
+        input_layout = QHBoxLayout()
+        input_layout.addWidget(label)
+        input_layout.addWidget(self.message_input)
+        input_layout.addWidget(self.log_level_select)
 
         # add logger
-        layout.addWidget(self.qlogger)
+        qlogger_frame = QFrame(parent=self)
+        qlogger_frame.setObjectName("qlogger_frame")
+        qlogger_frame.setStyleSheet("""
+        QFrame#qlogger_frame {
+            border: 3px solid rgb(60, 60, 60);
+            border-radius: 5px;
+            padding: 24px;
+            margin: 0px;
+        }""")
+        qlogger_frame.setLayout(QVBoxLayout())
+        qlogger_frame.layout().addWidget(self.qlogger)
+
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(
+            header_label,
+            alignment=Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop,
+        )
+        layout.addSpacing(24)
+        layout.addLayout(input_layout)
+        layout.addSpacing(24)
+        layout.addWidget(qlogger_frame)
 
         return layout
 
