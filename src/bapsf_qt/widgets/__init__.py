@@ -13,7 +13,7 @@ __all__ = [
     "QLogger",
 ]
 
-from bapsf_qt.widgets.logging import QLogger, QLogHandler
+from bapsf_qt.widgets.logging_ import QLogger, QLogHandler
 from bapsf_qt.widgets.styling import HLinePlain, QTAIconLabel, VLinePlain
 from bapsf_qt.widgets.text import QLineEditPayload
 from bapsf_qt.widgets.validators import IPv4Validator

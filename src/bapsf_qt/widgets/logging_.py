@@ -26,6 +26,8 @@ from PySide6.QtWidgets import (
 )
 from typing import List
 
+from bapsf_qt.widgets.styling import HLinePlain
+
 
 class QLogHandler(logging.Handler):
 
