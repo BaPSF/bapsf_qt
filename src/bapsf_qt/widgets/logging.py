@@ -88,6 +88,13 @@ class QLogger(QWidget):
         self.setLayout(self._define_layout())
         self._connect_signals()
 
+        if self.logger.name == "QLogger":
+            self.logger.warning(
+                "The given logger was invalid.  Created a "
+                "logging.Logger instance named 'QLogger' in its place "
+                "that is available via the `QLogger.logger` property."
+            )
+
     def _init_title_txt(self) -> QLabel:
         _label = QLabel("LOG", parent=self)
         _font = _label.font()
