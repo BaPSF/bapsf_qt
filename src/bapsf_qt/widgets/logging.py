@@ -200,15 +200,13 @@ class DemoQLogger(QMainWindow):
         logging.config.dictConfig(self._logging_config_dict)
         self._logger = logging.getLogger(":: GUI ::")
 
-        self._define_main_window()
-
         self.message_input = QLineEdit(parent=self)
         self.log_level_select = QComboBox(parent=self)
 
-        layout = self._define_layout()
+        self._define_main_window()
 
         widget = QWidget()
-        widget.setLayout(layout)
+        widget.setLayout(self._define_layout())
         self.setCentralWidget(widget)
 
         self._connect_signals()
