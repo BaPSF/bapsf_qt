@@ -8,7 +8,7 @@ __all__ = ["QLogHandler", "QLogger"]
 import logging
 import logging.config
 
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Qt, Slot, QTimer
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -207,6 +207,7 @@ class DemoQLogger(QMainWindow):
         self.log_level_select = self._init_log_level_select()
         self.qlogger = self._init_qlogger()
         self.auto_log_cb = self._init_auto_log_cb()
+        self.auto_log_timer = QTimer(parent=self, singleShot=True)
 
         self._define_main_window()
 
@@ -251,6 +252,8 @@ class DemoQLogger(QMainWindow):
 
     def _connect_signals(self) -> None:
         self.message_input.returnPressed.connect(self.enter_log)
+        self.auto_log_timer.timeout.connect(self._make_auto_log_entry)
+        self.auto_log_cb.checkStateChanged.connect(self.start_stop_auto_log)
 
     def _define_main_window(self):
         self.setWindowTitle("DEMO QLogger")
@@ -358,6 +361,36 @@ class DemoQLogger(QMainWindow):
     @property
     def logger(self) -> logging.Logger:
         return self._logger
+
+    @Slot()
+    def _make_auto_log_entry(self):
+        self.logger.info("--- auto log entry ---")
+
+        check_state = self.auto_log_cb.isChecked()
+        if check_state:
+            # keep the auto log runing
+            self.auto_log_timer.start(1000)
+
+    @Slot()
+    def start_stop_auto_log(self):
+        timer_active = self.auto_log_timer.isActive()
+        check_state = self.auto_log_cb.isChecked()
+
+        # timer is active and needs to be turned off
+        if timer_active and not check_state:
+            self.auto_log_timer.stop()
+            return
+
+        # timer is not active and needs to be started
+        if not timer_active and check_state:
+            self.auto_log_timer.start(1000)
+            return
+
+        # the other two case need no further action
+        # 1. timer is active and needs to be running
+        # 2. time is inactive and needs to be stopped
+        #
+        return
 
     @Slot()
     def enter_log(self):
