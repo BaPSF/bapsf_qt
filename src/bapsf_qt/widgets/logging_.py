@@ -367,7 +367,15 @@ class DemoQLogger(QMainWindow):
 
     @Slot()
     def _make_auto_log_entry(self):
-        self.logger.info(f"--- auto log entry {self.auto_log_counter} ---")
+        block_count = self.qlogger.log_widget.blockCount()
+        est_memory = 2 * len(self.qlogger.log_widget.toPlainText()) / 1000
+        memory_str = f"{est_memory:,.2f}".replace(",", " ")
+        self.logger.info(
+            f"\n    --- auto log entry\n"
+            f"    --- |-- Count : {self.auto_log_counter}\n"
+            f"    --- |-- Block Count : {block_count}\n"
+            f"    --- |-- Est. Mem. : {memory_str} kB"
+        )
         self.auto_log_counter += 1
 
         check_state = self.auto_log_cb.isChecked()
