@@ -24,6 +24,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+from typing import List
 
 
 class QLogHandler(logging.Handler):
@@ -71,15 +72,29 @@ class QLogger(QWidget):
 
         self._logger = logger  # type: logging.Logger
 
-        # TEXT WIDGETS
+        # Initialize Widgets
+        self.title_txt = self._init_title_txt()
+        self.slider_labels = self._init_slider_labels()
+        self.slider_widget = self._init_slider_widget()
+        self.log_widget = self._init_log_widget()
+
+        # setup log handler
+        # - this needs to happen after slider_widget and log_widget is initialized
+        self._handler = self._setup_log_handler()  # type: QLogHandler
+
+        self.setLayout(self._define_layout())
+        self._connect_signals()
+
+    def _init_title_txt(self) -> QLabel:
         _label = QLabel("LOG", parent=self)
         _font = _label.font()
         _font.setPointSize(14)
         _font.setBold(True)
         _label.setFont(_font)
-        self.title_txt = _label
+        return _label
 
-        self.slider_labels = []
+    def _init_slider_labels(self) -> List[QLabel]:
+        slider_labels = []
         for text in self._verbosity.keys():
             _label = QLabel(text, parent=self)
             _label.setAlignment(
@@ -91,10 +106,11 @@ class QLogger(QWidget):
             font.setPointSize(12)
             _label.setFont(font)
 
-            self.slider_labels.append(_label)
+            slider_labels.append(_label)
 
-        # ADVANCED WIDGETS
+        return slider_labels
 
+    def _init_slider_widget(self) -> QSlider:
         slider = QSlider(Qt.Orientation.Horizontal, parent=self)
         slider.setMinimum(1)
         slider.setMaximum(4)
@@ -104,20 +120,16 @@ class QLogger(QWidget):
         slider.setFixedHeight(16)
         slider.setMinimumWidth(100)
         slider.setValue(2)  # logging.INFO
-        self.slider_widget = slider
+        return slider
 
+    def _init_log_widget(self) -> QTextEdit:
         log_widget = QTextEdit(parent=self)
         log_widget.setReadOnly(True)
         font = log_widget.font()
         font.setPointSize(10)
         font.setFamily("Courier New")
         log_widget.setFont(font)
-        self.log_widget = log_widget
-
-        self._handler = self._setup_log_handler()  # type: QLogHandler
-
-        self.setLayout(self._define_layout())
-        self._connect_signals()
+        return log_widget
 
     def _connect_signals(self) -> None:
         self.slider_widget.valueChanged.connect(self.update_log_verbosity)
