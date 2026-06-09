@@ -207,14 +207,14 @@ class DemoQLogger(QMainWindow):
 
         layout = self._define_layout()
 
-        self.message_input.returnPressed.connect(self.enter_log)
-
         widget = QWidget()
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
+        self._connect_signals()
+
     def _connect_signals(self) -> None:
-        ...
+        self.message_input.returnPressed.connect(self.enter_log)
 
     def _define_main_window(self):
         self.setWindowTitle("Log Widget Tester")
