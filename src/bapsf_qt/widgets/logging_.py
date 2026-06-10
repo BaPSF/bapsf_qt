@@ -179,7 +179,11 @@ class QLogger(QWidget):
 
         return layout
 
-    def _configure_logger(self, logger: logging.Logger, include_stdout: bool = False) -> logging.Logger:
+    def _configure_logger(
+        self,
+        logger: logging.Logger,
+        include_stdout: bool = False,
+    ) -> logging.Logger:
 
         # set root logger to DEBUG so it does NOT filter for all other loggers
         logger.root.setLevel(0)
