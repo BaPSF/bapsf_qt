@@ -55,7 +55,7 @@ class SysConsoleFormatter(_BaseFormatter):
     }
 
     def format(self, record: logging.LogRecord) -> str:
-        footer = self._heaer_formats["INFO"]
+        footer = self._header_formats["INFO"]
         header = self._header_formats.get(record.levelname, footer)
         return f"{header}{super().format(record)}{footer}"
 
