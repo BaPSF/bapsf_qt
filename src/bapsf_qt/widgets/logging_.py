@@ -30,6 +30,54 @@ from PySide6.QtWidgets import (
 from typing import List
 
 
+class _BaseFormatter(logging.Formatter):
+    def __init__(
+        self,
+        fmt: str | None = None,
+        datefmt: str | None = None,
+        *args,
+        **kwargs,
+    ):
+        if fmt is None:
+            fmt = "%(asctime)s - [%(levelname)s] { %(name)s }  %(message)s"
+
+        if datefmt is None:
+            datefmt = "%H:%M:%S"
+        super().__init__(*args, fmt=fmt, datefmt=datefmt, **kwargs)
+
+
+class SysConsoleFormatter(_BaseFormatter):
+    _header_formats = {
+        "DEBUG": "\033[90m",  # grey
+        "INFO": "\033[0m",  # no styling
+        "WARNING": "\033[93m",  # yellow
+        "ERROR": "\033[31m",  # red
+        "CRITICAL": "\033[91m\033[1m",  # red and bold
+    }
+
+    def format(self, record: logging.LogRecord) -> str:
+        footer = self._header_formats["INFO"]
+        header = self._header_formats.get(record.levelname, footer)
+        return f"{header}{super().format(record)}{footer}"
+
+
+class QLoggerFormatter(_BaseFormatter):
+    _header_formats = {
+        "DEBUG": '<span style="color: grey;">',  # grey
+        "INFO": "<span>",  # no styling
+        "WARNING": '<span style="color: darkorange;">',  # yellow
+        "ERROR": '<span style="color: red;">',  # red
+        "CRITICAL": '<span style="color: red; font-weight: bold;">',  # red and bold
+    }
+
+    def format(self, record: logging.LogRecord) -> str:
+        footer = "</span>"
+        header = self._header_formats.get(record.levelname, "<span>")
+        message = super().format(record)
+        message = message.replace("\n", "<br>")
+        return f"{header}<pre>{message}</pre>{footer}"
+
+
 class QLogHandler(logging.Handler):
 
     def __init__(self, log_widget: QTextEdit | QPlainTextEdit, *args, **kwargs):
@@ -42,6 +90,8 @@ class QLogHandler(logging.Handler):
             )
         self._log_widget = log_widget
 
+        self.setFormatter(QLoggerFormatter())
+
     @property
     def log_widget(self) -> QTextEdit | QPlainTextEdit:
         return self._log_widget
@@ -52,7 +102,7 @@ class QLogHandler(logging.Handler):
         if isinstance(self.log_widget, QTextEdit):
             self.log_widget.append(msg)
         elif isinstance(self.log_widget, QPlainTextEdit):
-            self.log_widget.appendPlainText(msg)
+            self.log_widget.appendHtml(msg)
 
     def handle(self, record: logging.LogRecord) -> None:
         self.emit(record)
@@ -64,6 +114,7 @@ class QLogger(QWidget):
         "INFO": logging.INFO,
         "WARNING": logging.WARNING,
         "ERROR": logging.ERROR,
+        "CRITICAL": logging.CRITICAL,
     }
 
     def __init__(
@@ -129,7 +180,7 @@ class QLogger(QWidget):
     def _init_slider_widget(self) -> QSlider:
         slider = QSlider(Qt.Orientation.Horizontal, parent=self)
         slider.setMinimum(1)
-        slider.setMaximum(4)
+        slider.setMaximum(5)
         slider.setTickInterval(1)
         slider.setSingleStep(1)
         slider.setTickPosition(slider.TickPosition.TicksBelow)
@@ -165,7 +216,7 @@ class QLogger(QWidget):
 
     def _define_layout(self):
         slider_layout = QGridLayout()
-        slider_layout.addWidget(self.slider_widget, 0, 1, 1, 6)
+        slider_layout.addWidget(self.slider_widget, 0, 1, 1, 8)
         for ii, lw in enumerate(self.slider_labels):
             slider_layout.addWidget(lw, 1, 2 * ii, 1, 2)
 
@@ -188,14 +239,8 @@ class QLogger(QWidget):
         # set root logger to DEBUG so it does NOT filter for all other loggers
         logger.root.setLevel(0)
 
-        formatter = logging.Formatter(
-            fmt="%(asctime)s - [%(levelname)s] { %(name)s }  %(message)s",
-            datefmt="%H:%M:%S",
-        )
-
         # configure and add QLogHandler
         handler = self._handler
-        handler.setFormatter(formatter)
         vindex = self.slider_widget.value() - 1
         vkey = list(self._verbosity.keys())[vindex]
         handler.setLevel(self._verbosity[vkey])
@@ -204,13 +249,13 @@ class QLogger(QWidget):
 
         # configure and add sys.stderr handler
         handler = logging.StreamHandler(stream=sys.stderr)
-        handler.setFormatter(formatter)
+        handler.setFormatter(SysConsoleFormatter())
         handler.setLevel(logging.WARNING)
         logger.addHandler(handler)
 
         if isinstance(include_stdout, bool) and include_stdout:
             handler = logging.StreamHandler(stream=sys.stdout)
-            handler.setFormatter(formatter)
+            handler.setFormatter(SysConsoleFormatter())
             handler.setLevel(logging.INFO)
             logger.addHandler(handler)
 
