@@ -63,7 +63,7 @@ class QLoggerFormatter(_BaseFormatter):
     _header_formats = {
         "DEBUG": '<span style="color: grey;">',  # grey
         "INFO": "<span>",  # no styling
-        "WARNING": '<span style="color: yellow;">',  # yellow
+        "WARNING": '<span style="color: darkorange;">',  # yellow
         "ERROR": '<span style="color: red;">',  # red
         "CRITICAL": '<span style="color: red; font-weight: bold;">',  # red and bold
     }
