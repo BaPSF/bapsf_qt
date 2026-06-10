@@ -85,6 +85,8 @@ class QLogHandler(logging.Handler):
             )
         self._log_widget = log_widget
 
+        self.setFormatter(QLoggerFormatter())
+
     @property
     def log_widget(self) -> QTextEdit | QPlainTextEdit:
         return self._log_widget
