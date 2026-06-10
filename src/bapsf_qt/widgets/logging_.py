@@ -202,6 +202,11 @@ class QLogger(QWidget):
         for label in self.slider_labels:
             label.setVisible(vkey)
 
+    def set_title_visible(self, vkey: bool):
+        if not isinstance(vkey, bool):
+            return
+        self.title_txt.setVisible(vkey)
+
     @Slot()
     def update_log_verbosity(self):
         vindex = self.slider_widget.value() - 1
