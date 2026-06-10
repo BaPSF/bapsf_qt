@@ -285,7 +285,11 @@ class DemoQLogger(QMainWindow):
         return log_level_select
 
     def _init_qlogger(self) -> QLogger:
-        qlogger = QLogger(self._logger, parent=self)
+        qlogger = QLogger(
+            self._logger,
+            include_stdout=True,
+            parent=self,
+        )
         qlogger.setSizePolicy(
             QSizePolicy.Policy.Preferred,
             QSizePolicy.Policy.Ignored,
