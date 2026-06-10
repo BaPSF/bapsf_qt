@@ -416,7 +416,7 @@ class DemoQLogger(QMainWindow):
 
         check_state = self.auto_log_cb.isChecked()
         if check_state:
-            # keep the auto log runing
+            # keep the auto log running
             self.auto_log_timer.start(self.auto_log_interval)
 
     @Slot()
