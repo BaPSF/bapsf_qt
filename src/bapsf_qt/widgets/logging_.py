@@ -58,6 +58,49 @@ class QLogHandler(logging.Handler):
         self.emit(record)
 
 
+class _BaseFormatter(logging.Formatter):
+    def __init__(
+        self,
+        fmt: str | None = None,
+        datefmt: str | None = None,
+        *args, **kwargs,
+    ):
+        if fmt is None:
+            fmt = "%(asctime)s - [%(levelname)s] { %(name)s }  %(message)s"
+
+        if datefmt is None:
+            datefmt = "%H:%M:%S"
+        super().__init__(*args, fmt=fmt, datefmt=datefmt, **kwargs)
+
+
+class SysConsoleFormatter(_BaseFormatter):
+    _header_formats = {
+        "DEBUG": "\033[90m",  # grey
+        "INFO": "\033[0m",  # no styling
+        "WARNING": "\033[93m",  # yellow
+        "ERROR": "\033[31m",  # red
+        "CRITICAL": "\033[91m\033[1m",  # red and bold
+    }
+
+    def format(self, record: logging.LogRecord) -> str:
+        footer = self._heaer_formats["INFO"]
+        header = self._header_formats.get(record.levelname, footer)
+        return f"{header}{super().format(record)}{footer}"
+
+class QLoggerFormatter(_BaseFormatter):
+    _header_formats = {
+        "DEBUG": '<span style="color: grey;">',  # grey
+        "INFO": "<span>",  # no styling
+        "WARNING": '<span style="color: yellow;">',  # yellow
+        "ERROR": '<span style="color: red;">',  # red
+        "CRITICAL": '<span style="color: red; font-weight: bold;">',  # red and bold
+    }
+    def format(self, record: logging.LogRecord) -> str:
+        footer = "</span>"
+        header = self._header_formats.get(record.levelname, "<span>")
+        return f"{header}{super().format(record)}{footer}"
+
+
 class QLogger(QWidget):
     _verbosity = {
         "DEBUG": logging.DEBUG,
