@@ -97,7 +97,7 @@ class QLogHandler(logging.Handler):
         if isinstance(self.log_widget, QTextEdit):
             self.log_widget.append(msg)
         elif isinstance(self.log_widget, QPlainTextEdit):
-            self.log_widget.appendPlainText(msg)
+            self.log_widget.appendHtml(msg)
 
     def handle(self, record: logging.LogRecord) -> None:
         self.emit(record)
