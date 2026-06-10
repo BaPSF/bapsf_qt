@@ -35,7 +35,8 @@ class _BaseFormatter(logging.Formatter):
         self,
         fmt: str | None = None,
         datefmt: str | None = None,
-        *args, **kwargs,
+        *args,
+        **kwargs,
     ):
         if fmt is None:
             fmt = "%(asctime)s - [%(levelname)s] { %(name)s }  %(message)s"
@@ -59,6 +60,7 @@ class SysConsoleFormatter(_BaseFormatter):
         header = self._header_formats.get(record.levelname, footer)
         return f"{header}{super().format(record)}{footer}"
 
+
 class QLoggerFormatter(_BaseFormatter):
     _header_formats = {
         "DEBUG": '<span style="color: grey;">',  # grey
@@ -67,6 +69,7 @@ class QLoggerFormatter(_BaseFormatter):
         "ERROR": '<span style="color: red;">',  # red
         "CRITICAL": '<span style="color: red; font-weight: bold;">',  # red and bold
     }
+
     def format(self, record: logging.LogRecord) -> str:
         footer = "</span>"
         header = self._header_formats.get(record.levelname, "<span>")
