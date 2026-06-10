@@ -109,6 +109,7 @@ class QLogger(QWidget):
         "INFO": logging.INFO,
         "WARNING": logging.WARNING,
         "ERROR": logging.ERROR,
+        "CRITICAL": logging.CRITICAL,
     }
 
     def __init__(
