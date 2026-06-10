@@ -70,6 +70,7 @@ class QLogger(QWidget):
         self,
         logger: logging.Logger,
         max_block_count: int = 2000,
+        include_stdout: bool = False,
         parent: QWidget | None = None,
     ):
         super().__init__(parent=parent)
@@ -88,7 +89,7 @@ class QLogger(QWidget):
         if not isinstance(logger, logging.Logger):
             logger = logging.getLogger("QLogger")
         self._handler = QLogHandler(log_widget=self.log_widget)
-        self._logger = self._configure_logger(logger)
+        self._logger = self._configure_logger(logger, include_stdout=include_stdout)
 
         self.setLayout(self._define_layout())
         self._connect_signals()
@@ -178,7 +179,7 @@ class QLogger(QWidget):
 
         return layout
 
-    def _configure_logger(self, logger: logging.Logger) -> logging.Logger:
+    def _configure_logger(self, logger: logging.Logger, include_stdout: bool = False) -> logging.Logger:
 
         # set root logger to DEBUG so it does NOT filter for all other loggers
         logger.root.setLevel(0)
@@ -202,6 +203,12 @@ class QLogger(QWidget):
         handler.setFormatter(formatter)
         handler.setLevel(logging.WARNING)
         logger.addHandler(handler)
+
+        if isinstance(include_stdout, bool) and include_stdout:
+            handler = logging.StreamHandler(stream=sys.stdout)
+            handler.setFormatter(formatter)
+            handler.setLevel(logging.INFO)
+            logger.addHandler(handler)
 
         # other logger settings
         logger.propagate = True
