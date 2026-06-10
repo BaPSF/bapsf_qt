@@ -235,13 +235,14 @@ class DemoQLogger(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        logging.config.dictConfig(self._logging_config_dict)
+        # setup logging infrastructure
+        # - QLogger configures the logger as needed
         self._logger = logging.getLogger(":: GUI ::")
+        self.qlogger = self._init_qlogger()
 
         # Instantiate widgers
         self.message_input = self._init_message_input()
         self.log_level_select = self._init_log_level_select()
-        self.qlogger = self._init_qlogger()
         self.auto_log_cb = self._init_auto_log_cb()
         self.auto_log_timer = QTimer(parent=self, singleShot=True)
         self.auto_log_interval = 100  # in msec
