@@ -70,7 +70,9 @@ class QLoggerFormatter(_BaseFormatter):
     def format(self, record: logging.LogRecord) -> str:
         footer = "</span>"
         header = self._header_formats.get(record.levelname, "<span>")
-        return f"{header}{super().format(record)}{footer}"
+        message = super().format(record)
+        message = message.replace("\n", "<br>")
+        return f"{header}<pre>{message}</pre>{footer}"
 
 
 class QLogHandler(logging.Handler):
