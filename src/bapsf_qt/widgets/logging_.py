@@ -146,6 +146,10 @@ class QLogger(QWidget):
         font.setFamily("Courier New")
         log_widget.setFont(font)
         log_widget.setUndoRedoEnabled(False)
+        log_widget.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Expanding,
+        )
         return log_widget
 
     def _connect_signals(self) -> None:
@@ -189,6 +193,14 @@ class QLogger(QWidget):
         self.logger.addHandler(handler)
 
         return handler
+
+    def set_log_slider_visible(self, vkey: bool):
+        if not isinstance(vkey, bool):
+            return
+
+        self.slider_widget.setVisible(vkey)
+        for label in self.slider_labels:
+            label.setVisible(vkey)
 
     @Slot()
     def update_log_verbosity(self):
