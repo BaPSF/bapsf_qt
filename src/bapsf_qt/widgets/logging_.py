@@ -233,14 +233,8 @@ class QLogger(QWidget):
         # set root logger to DEBUG so it does NOT filter for all other loggers
         logger.root.setLevel(0)
 
-        formatter = logging.Formatter(
-            fmt="%(asctime)s - [%(levelname)s] { %(name)s }  %(message)s",
-            datefmt="%H:%M:%S",
-        )
-
         # configure and add QLogHandler
         handler = self._handler
-        handler.setFormatter(formatter)
         vindex = self.slider_widget.value() - 1
         vkey = list(self._verbosity.keys())[vindex]
         handler.setLevel(self._verbosity[vkey])
@@ -249,13 +243,13 @@ class QLogger(QWidget):
 
         # configure and add sys.stderr handler
         handler = logging.StreamHandler(stream=sys.stderr)
-        handler.setFormatter(formatter)
+        handler.setFormatter(SysConsoleFormatter())
         handler.setLevel(logging.WARNING)
         logger.addHandler(handler)
 
         if isinstance(include_stdout, bool) and include_stdout:
             handler = logging.StreamHandler(stream=sys.stdout)
-            handler.setFormatter(formatter)
+            handler.setFormatter(SysConsoleFormatter())
             handler.setLevel(logging.INFO)
             logger.addHandler(handler)
 
