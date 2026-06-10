@@ -7,6 +7,7 @@ __all__ = ["QLogHandler", "QLogger"]
 
 import logging
 import logging.config
+import sys
 
 from PySide6.QtCore import Qt, Slot, QTimer
 from PySide6.QtWidgets import (
@@ -73,11 +74,6 @@ class QLogger(QWidget):
     ):
         super().__init__(parent=parent)
 
-        # instantiate logger
-        if not isinstance(logger, logging.Logger):
-            logger = logging.getLogger("QLogger")
-        self._logger = logger  # type: logging.Logger
-
         # Initialize Widgets
         self.title_txt = self._init_title_txt()
         self.slider_labels = self._init_slider_labels()
@@ -87,9 +83,12 @@ class QLogger(QWidget):
         if isinstance(max_block_count, int) and max_block_count > 0:
             self.log_widget.setMaximumBlockCount(max_block_count)
 
-        # setup log handler
+        # setup logger
         # - this needs to happen after slider_widget and log_widget is initialized
-        self._handler = self._setup_log_handler()  # type: QLogHandler
+        if not isinstance(logger, logging.Logger):
+            logger = logging.getLogger("QLogger")
+        self._handler = QLogHandler(log_widget=self.log_widget)
+        self._logger = self._configure_logger(logger)
 
         self.setLayout(self._define_layout())
         self._connect_signals()
@@ -179,20 +178,35 @@ class QLogger(QWidget):
 
         return layout
 
-    def _setup_log_handler(self):
-        handler = QLogHandler(log_widget=self.log_widget)
-        handler.setFormatter(
-            logging.Formatter(
-                fmt="%(asctime)s - [%(levelname)s] { %(name)s }  %(message)s",
-                datefmt="%H:%M:%S",
-            ),
+    def _configure_logger(self, logger: logging.Logger) -> logging.Logger:
+
+        # set root logger to DEBUG so it does NOT filter for all other loggers
+        logger.root.setLevel(0)
+
+        formatter = logging.Formatter(
+            fmt="%(asctime)s - [%(levelname)s] { %(name)s }  %(message)s",
+            datefmt="%H:%M:%S",
         )
+
+        # configure and add QLogHandler
+        handler = self._handler
+        handler.setFormatter(formatter)
         vindex = self.slider_widget.value() - 1
         vkey = list(self._verbosity.keys())[vindex]
         handler.setLevel(self._verbosity[vkey])
-        self.logger.addHandler(handler)
+        logger.addHandler(handler)
+        self._handler = handler
 
-        return handler
+        # configure and add sys.stderr handler
+        handler = logging.StreamHandler(stream=sys.stderr)
+        handler.setFormatter(formatter)
+        handler.setLevel(logging.WARNING)
+        logger.addHandler(handler)
+
+        # other logger settings
+        logger.propagate = True
+
+        return logger
 
     def set_log_slider_visible(self, vkey: bool):
         if not isinstance(vkey, bool):
