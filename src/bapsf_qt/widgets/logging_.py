@@ -180,7 +180,7 @@ class QLogger(QWidget):
     def _init_slider_widget(self) -> QSlider:
         slider = QSlider(Qt.Orientation.Horizontal, parent=self)
         slider.setMinimum(1)
-        slider.setMaximum(4)
+        slider.setMaximum(5)
         slider.setTickInterval(1)
         slider.setSingleStep(1)
         slider.setTickPosition(slider.TickPosition.TicksBelow)
@@ -216,7 +216,7 @@ class QLogger(QWidget):
 
     def _define_layout(self):
         slider_layout = QGridLayout()
-        slider_layout.addWidget(self.slider_widget, 0, 1, 1, 6)
+        slider_layout.addWidget(self.slider_widget, 0, 1, 1, 8)
         for ii, lw in enumerate(self.slider_labels):
             slider_layout.addWidget(lw, 1, 2 * ii, 1, 2)
 
