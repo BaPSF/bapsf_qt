@@ -97,6 +97,11 @@ class QLogHandler(logging.Handler):
 
         self.setFormatter(QLoggerFormatter())
 
+        if isinstance(self.log_widget, QTextEdit):
+            self.signals.writeLog.connect(self._log_widget.append)
+        elif isinstance(self.log_widget, QPlainTextEdit):
+            self.signals.writeLog.connect(self._log_widget.appendHtml)
+
     @property
     def log_widget(self) -> QTextEdit | QPlainTextEdit:
         return self._log_widget
