@@ -9,7 +9,7 @@ import logging
 import logging.config
 import sys
 
-from PySide6.QtCore import Qt, QTimer, Slot, QObject, Signal
+from PySide6.QtCore import QObject, Qt, QTimer, Signal, Slot
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
