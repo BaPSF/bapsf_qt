@@ -9,7 +9,7 @@ import logging
 import logging.config
 import sys
 
-from PySide6.QtCore import Qt, QTimer, Slot
+from PySide6.QtCore import QObject, Qt, QTimer, Signal, Slot
 from PySide6.QtWidgets import (
     QCheckBox,
     QComboBox,
@@ -78,7 +78,12 @@ class QLoggerFormatter(_BaseFormatter):
         return f"{header}<pre>{message}</pre>{footer}"
 
 
+class QLogHandlerSignals(QObject):
+    writeLog = Signal(str)
+
+
 class QLogHandler(logging.Handler):
+    signals = QLogHandlerSignals()
 
     def __init__(self, log_widget: QTextEdit | QPlainTextEdit, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -92,17 +97,18 @@ class QLogHandler(logging.Handler):
 
         self.setFormatter(QLoggerFormatter())
 
+        if isinstance(self.log_widget, QTextEdit):
+            self.signals.writeLog.connect(self._log_widget.append)
+        elif isinstance(self.log_widget, QPlainTextEdit):
+            self.signals.writeLog.connect(self._log_widget.appendHtml)
+
     @property
     def log_widget(self) -> QTextEdit | QPlainTextEdit:
         return self._log_widget
 
     def emit(self, record: logging.LogRecord) -> None:
         msg = self.format(record)
-
-        if isinstance(self.log_widget, QTextEdit):
-            self.log_widget.append(msg)
-        elif isinstance(self.log_widget, QPlainTextEdit):
-            self.log_widget.appendHtml(msg)
+        self.signals.writeLog.emit(msg)
 
     def handle(self, record: logging.LogRecord) -> None:
         self.emit(record)
