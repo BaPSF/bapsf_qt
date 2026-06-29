@@ -206,12 +206,12 @@ class QToggleSwitch(QCheckBox):
 
         # Draw the handle.
         travel_distance = content_box.width() - diameter
-        handlePosX = (
+        handle_xpos = (
             content_box.x() + radius + travel_distance * self._toggle_fractional_position
         )
         handle_radius = self._DEFAULT_HANDLE_REL_SIZE * radius
         painter.drawEllipse(
-            QPointF(handlePosX, content_box.center().y() + 1),
+            QPointF(handle_xpos, content_box.center().y() + 1),
             handle_radius,
             handle_radius,
         )
