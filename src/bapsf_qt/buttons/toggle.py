@@ -110,6 +110,8 @@ class QToggleSwitch(QCheckBox):
         font.setBold(True)
         font.setPixelSize(int(event.size().height() * self._font_height_fill))
         self.setFont(font)
+        
+        super().resizeEvent(event)
 
     def sizeHint(self):
         maxTextWidth = float("-inf")
