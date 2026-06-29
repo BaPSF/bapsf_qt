@@ -218,6 +218,7 @@ class QToggleSwitch(QCheckBox):
 
     def setChecked(self, checked):
         super().setChecked(checked)
+
         # Ensure we are in the finished animation state if there are
         # signals blocked from the outside!
         if self.signalsBlocked():
@@ -226,6 +227,7 @@ class QToggleSwitch(QCheckBox):
             # Ensure the toggle is updated visually even though it
             # seems this is not necessary.
             self.update()
+
         self._handle_check_state_text()
 
     @staticmethod
