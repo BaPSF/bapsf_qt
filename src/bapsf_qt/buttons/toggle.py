@@ -121,13 +121,17 @@ class QToggleSwitch(QCheckBox):
 
         # We use _DEFUALT_PREFERRED_HEIGHT to prevent users from
         # shooting themselves in the foot (visually).
-        preferredHeight = max(self.minimumHeight(), self._DEFAULT_PREFERRED_HEIGHT)
+        preferred_height = max(self.minimumHeight(), self._DEFAULT_PREFERRED_HEIGHT)
 
         # The 1.2 is a magic number creating some padding for the text so
         # that big letters do not overflow the rounded corners.
         return QSize(
-            int(preferredHeight + max_text_width * 1.2 + self._DEFAULT_TEXT_SIDE_PADDING),
-            preferredHeight,
+            int(
+                preferred_height
+                + max_text_width * 1.2
+                + self._DEFAULT_TEXT_SIDE_PADDING
+            ),
+            preferred_height,
         )
 
     def hitButton(self, pos: QPoint):
