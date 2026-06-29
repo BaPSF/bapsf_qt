@@ -16,6 +16,8 @@ from PySide6.QtGui import QColor, QPainter, QPen, QBrush
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from PySide6.QtCore import QPoint
+    from PySide6.QtGui import QResizeEvent
     from PySide6.QtWidgets import QWidget
 
 
@@ -99,7 +101,7 @@ class QToggleSwitch(QCheckBox):
         self._handlePositionMultiplier = handlePositionMultiplier
         self.update()
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event: QResizeEvent):
         font = self.font()
         font.setBold(True)
         font.setPixelSize(int(event.size().height() * self._font_height_fill))
@@ -122,7 +124,7 @@ class QToggleSwitch(QCheckBox):
             preferredHeight,
         )
 
-    def hitButton(self, pos):
+    def hitButton(self, pos: QPoint):
         """Define the clickable area of the checkbox."""
         return self.contentsRect().contains(pos)
 
