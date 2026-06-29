@@ -209,9 +209,11 @@ class QToggleSwitch(QCheckBox):
         handlePosX = (
             content_box.x() + radius + travel_distance * self._toggle_fractional_position
         )
-        handleRadius = self._DEFAULT_HANDLE_REL_SIZE * radius
+        handle_radius = self._DEFAULT_HANDLE_REL_SIZE * radius
         painter.drawEllipse(
-            QPointF(handlePosX, content_box.center().y() + 1), handleRadius, handleRadius
+            QPointF(handlePosX, content_box.center().y() + 1),
+            handle_radius,
+            handle_radius,
         )
 
         painter.restore()
