@@ -397,6 +397,7 @@ class DemoQLogger(QMainWindow):
         font = label.font()
         font.setPointSize(12)
         label.setFont(font)
+        message_label = label
 
         cb_layout = QHBoxLayout()
         cb_layout.setContentsMargins(0, 0, 0, 0)
@@ -408,7 +409,7 @@ class DemoQLogger(QMainWindow):
 
         input_layout = QHBoxLayout()
         input_layout.setContentsMargins(0, 0, 0, 0)
-        input_layout.addWidget(label)
+        input_layout.addWidget(message_label)
         input_layout.addWidget(self.message_input)
         input_layout.addWidget(self.log_level_select)
 
