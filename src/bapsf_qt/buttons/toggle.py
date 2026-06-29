@@ -90,7 +90,7 @@ class QToggleSwitch(QCheckBox):
         self.setCursor(Qt.CursorShape.PointingHandCursor)
 
         # connect signals
-        self.stateChanged.connect(self._onStateChanged)
+        self.stateChanged.connect(self._handle_checked_state_changed)
 
     def _handle_check_state_text(self):
         text = self._checked_text if self.isChecked() else self._unchecked_text
@@ -135,7 +135,7 @@ class QToggleSwitch(QCheckBox):
         # Utilized by parent class AbstractButton
         return self.contentsRect().contains(pos)
 
-    def _onStateChanged(self, state):
+    def _handle_checked_state_changed(self, state):
         self._animation.stop()
         if bool(state):
             self._animation.setEndValue(1)
