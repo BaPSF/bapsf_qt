@@ -29,7 +29,7 @@ class QToggleSwitch(QCheckBox):
     _DEFAULT_ANIMATION_DURATION = 200  # in msec
     _DEFAULT_HANDLE_REL_SIZE = 0.82
     _DEFAULT_PREFERRED_HEIGHT = 20
-    _DEFAULT_TEXT_SIDE_PADDING = 4
+    _DEFAULT_TEXT_SIDE_PADDING = 8
 
     def __init__(
         self,
