@@ -4,16 +4,16 @@ __all__ = ["QToggleSwitch"]
 
 from PySide6.QtCore import (
     Property,
-    Qt,
-    QSize,
-    QPropertyAnimation,
     QEasingCurve,
-    QRect,
     QPointF,
+    QPropertyAnimation,
+    QRect,
+    QSize,
+    Qt,
     Slot,
 )
-from PySide6.QtWidgets import QCheckBox, QMainWindow, QHBoxLayout, QWidget
-from PySide6.QtGui import QColor, QPainter, QPen, QBrush
+from PySide6.QtGui import QBrush, QColor, QPainter, QPen
+from PySide6.QtWidgets import QCheckBox, QHBoxLayout, QMainWindow, QWidget
 from typing import TYPE_CHECKING
 
 from bapsf_qt.buttons.indicators import LED
