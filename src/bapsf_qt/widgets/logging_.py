@@ -114,6 +114,12 @@ class QLogHandler(logging.Handler):
     def handle(self, record: logging.LogRecord) -> None:
         self.emit(record)
 
+    def blockSignals(self, b: bool, /):  # noqa
+        if not isinstance(b, bool):
+            return
+
+        self.signals.blockSignals(b)
+
 
 class QLogger(QWidget):
     _verbosity = {
