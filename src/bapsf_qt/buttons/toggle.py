@@ -200,9 +200,9 @@ class QToggleSwitch(QCheckBox):
 
         # Adjust the handle drawing brush if the toggle is not enabled.
         if not self.isEnabled():
-            newColor = painter.brush().color()
-            newColor.setAlphaF(0.5)
-            painter.setBrush(QBrush(newColor))
+            color = painter.brush().color()
+            color.setAlphaF(0.5)
+            painter.setBrush(QBrush(color))
 
         # Draw the handle.
         travelDistance = content_box.width() - diameter
