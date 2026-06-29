@@ -39,7 +39,36 @@ class QToggleSwitch(QCheckBox):
         parent: QWidget | None = None,
     ):
         super().__init__(parent=parent)
-        assert 0 < font_height_fill <= 1
+
+        for state, text in zip(
+            ("Checked", "Unchecked"),
+            (checked_text, unchecked_text),
+        ):
+            if not isinstance(text, str):
+                raise TypeError(
+                    f"{state} text must be a string, got type {type(text)}."
+                )
+
+        for state, color in zip(
+            ("Checked", "Unchecked"),
+            (checked_color, unchecked_color),
+        ):
+            if not isinstance(color, QColor):
+                raise TypeError(
+                    f"{state} color must be a QColor instance, got type {type(color)}."
+                )
+
+        if not isinstance(font_height_fill, (float, int)):
+            raise TypeError(
+                f"Argument 'font_height_fill' must be a number, "
+                f"got type {type(font_height_fill)}."
+            )
+        font_height_fill = float(font_height_fill)
+        if not (0 < font_height_fill <= 1):
+            raise ValueError(
+                f"Argument 'font_height_fill' must be a number in the "
+                f"range (0, 1], got {font_height_fill}."
+            )
 
         self._checked_text = checked_text
         self._unchecked_text = unchecked_text
