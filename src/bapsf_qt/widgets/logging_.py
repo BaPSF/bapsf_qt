@@ -319,7 +319,7 @@ class DemoQLogger(QMainWindow):
         self._logger = logging.getLogger(":: GUI ::")
         self.qlogger = self._init_qlogger()
 
-        # Instantiate widgers
+        # Instantiate widgets
         self.message_input = self._init_message_input()
         self.log_level_select = self._init_log_level_select()
         self.auto_log_cb = self._init_auto_log_cb()
