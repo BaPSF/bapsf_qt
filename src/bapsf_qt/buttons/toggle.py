@@ -180,9 +180,8 @@ class QToggleSwitch(QCheckBox):
 
         # Draw the text.
         painter.save()
-        textPosMultiplier = 1.0 - self._toggle_fractional_position
-        text_box_x = (
-            diameter * textPosMultiplier
+        text_box_x = int(
+            diameter * (1.0 - self._toggle_fractional_position)
             + self._DEFAULT_TEXT_SIDE_PADDING * self._toggle_fractional_position
         )
         text_box_width = content_box.width() - diameter - self._DEFAULT_TEXT_SIDE_PADDING
