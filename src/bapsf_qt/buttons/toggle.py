@@ -189,12 +189,12 @@ class QToggleSwitch(QCheckBox):
         textRect = QRect(textRectX, 0, textRectWidth, content_box.height())
         if self.isEnabled():
             # Trick for fading the text through the handle during transition.
-            textOpacity = abs(0.5 - self._toggle_fractional_position) * 2
+            text_opacity = abs(0.5 - self._toggle_fractional_position) * 2
         else:
             # Override text opacity for disabled toggle.
-            textOpacity = 0.5
+            text_opacity = 0.5
         painter.setBrush(Qt.BrushStyle.NoBrush)
-        painter.setPen(QPen(QColor.fromRgbF(0, 0, 0, textOpacity)))
+        painter.setPen(QPen(QColor.fromRgbF(0, 0, 0, text_opacity)))
         painter.drawText(textRect, Qt.AlignmentFlag.AlignCenter, current_text)
         painter.restore()
 
