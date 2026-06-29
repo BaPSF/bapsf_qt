@@ -35,15 +35,15 @@ class QToggleSwitch(QCheckBox):
         unchecked_text: str = "",
         checked_color: QColor = QColor(0, 176, 255),
         unchecked_color: QColor = QColor(180, 180, 180),
-        fontHeightRatio: float = 0.5,
+        font_height_fill: float = 0.5,
         parent: QWidget | None = None,
     ):
         super().__init__(parent=parent)
-        assert 0 < fontHeightRatio <= 1
+        assert 0 < font_height_fill <= 1
 
         self._checked_text = checked_text
         self._unchecked_text = unchecked_text
-        self._fontHeightRatio = fontHeightRatio
+        self._font_height_fill = font_height_fill
 
         self.setCheckedColor(checked_color)
         self.setUncheckedColor(unchecked_color)
@@ -73,7 +73,7 @@ class QToggleSwitch(QCheckBox):
     def resizeEvent(self, event):
         font = self.font()
         font.setBold(True)
-        font.setPixelSize(int(event.size().height() * self._fontHeightRatio))
+        font.setPixelSize(int(event.size().height() * self._font_height_fill))
         self.setFont(font)
 
     def sizeHint(self):
