@@ -10,15 +10,17 @@ from PySide6.QtCore import (
     QEasingCurve,
     QRect,
     QPointF,
+    Slot,
 )
-from PySide6.QtWidgets import QCheckBox
+from PySide6.QtWidgets import QCheckBox, QMainWindow, QHBoxLayout, QWidget
 from PySide6.QtGui import QColor, QPainter, QPen, QBrush
 from typing import TYPE_CHECKING
+
+from bapsf_qt.buttons.indicators import LED
 
 if TYPE_CHECKING:
     from PySide6.QtCore import QPoint
     from PySide6.QtGui import QResizeEvent
-    from PySide6.QtWidgets import QWidget
 
 
 class QToggleSwitch(QCheckBox):
@@ -231,3 +233,60 @@ class QToggleSwitch(QCheckBox):
     def setUncheckedColor(self, color):
         self._uncheckedHandleBrush = QBrush(color)
         self._uncheckedBodyBrush = QBrush(color.lighter(170))
+
+
+class _QToggleSwitchDemo(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+        self._define_main_window()
+
+        self.toggle_switch = self._init_toggle_switch()
+        self.led = LED(parent=self)
+
+        widget = QWidget()
+        widget.setLayout(self._define_layout())
+        self.setCentralWidget(widget)
+
+        self._connect_signals()
+
+    def _connect_signals(self):
+        self.toggle_switch.checkStateChanged.connect(self._handle_toggle)
+
+    def _define_layout(self):
+        layout = QHBoxLayout()
+        layout.addStretch(1)
+        layout.addWidget(self.toggle_switch)
+        layout.addSpacing(24)
+        layout.addWidget(self.led)
+        layout.addStretch(1)
+        return layout
+
+    def _define_main_window(self):
+        self.setWindowTitle("DEMO QToggleSwitch")
+        self.resize(300, 150)
+        self.setMinimumHeight(200)
+        self.setContentsMargins(12, 12, 12, 12)
+
+    def _init_toggle_switch(self):
+        toggle = QToggleSwitch("ON", "off", parent=self)
+        # toggle.setFixedWidth(60)
+        toggle.setFixedHeight(48)
+        return toggle
+
+    @Slot()
+    def _handle_toggle(self):
+        checked = self.toggle_switch.isChecked()
+        self.led.setChecked(checked)
+
+
+if __name__ == "__main__":
+    from PySide6.QtWidgets import QApplication
+
+    app = QApplication([])
+
+    window = _QToggleSwitchDemo()
+    window.show()
+
+    app.exec()
