@@ -78,8 +78,8 @@ class QToggleSwitch(QCheckBox):
         self._unchecked_text = unchecked_text
         self._font_height_fill = font_height_fill
 
-        self._handlePositionMultiplier = 0
-        self._animation = QPropertyAnimation(self, b"handlePositionMultiplier")
+        self._toggle_fractional_position = 0
+        self._animation = QPropertyAnimation(self, b"toggle_fractional_position")
         self._animation.setEasingCurve(QEasingCurve.Type.InOutCubic)
         self._animation.setDuration(self._DEFAULT_ANIMATION_DURATION)
 
@@ -97,12 +97,12 @@ class QToggleSwitch(QCheckBox):
         self.setText(text)
 
     @Property(float)
-    def handlePositionMultiplier(self):
-        return self._handlePositionMultiplier
+    def toggle_fractional_position(self):
+        return self._toggle_fractional_position
 
-    @handlePositionMultiplier.setter
-    def handlePositionMultiplier(self, handlePositionMultiplier):
-        self._handlePositionMultiplier = handlePositionMultiplier
+    @toggle_fractional_position.setter
+    def toggle_fractional_position(self, position):
+        self._toggle_fractional_position = position
         self.update()
 
     def resizeEvent(self, event: QResizeEvent):
@@ -158,7 +158,7 @@ class QToggleSwitch(QCheckBox):
 
         # Determine current text based on handle position
         # during the animation - switch it right in the middle.
-        if self._handlePositionMultiplier > 0.5:
+        if self._toggle_fractional_position > 0.5:
             current_text = self._checked_text
         else:
             current_text = self._unchecked_text
@@ -180,16 +180,16 @@ class QToggleSwitch(QCheckBox):
 
         # Draw the text.
         painter.save()
-        textPosMultiplier = 1.0 - self._handlePositionMultiplier
+        textPosMultiplier = 1.0 - self._toggle_fractional_position
         textRectX = (
             diameter * textPosMultiplier
-            + self._DEFAULT_TEXT_SIDE_PADDING * self._handlePositionMultiplier
+            + self._DEFAULT_TEXT_SIDE_PADDING * self._toggle_fractional_position
         )
         textRectWidth = content_box.width() - diameter - self._DEFAULT_TEXT_SIDE_PADDING
         textRect = QRect(textRectX, 0, textRectWidth, content_box.height())
         if self.isEnabled():
             # Trick for fading the text through the handle during transition.
-            textOpacity = abs(0.5 - self._handlePositionMultiplier) * 2
+            textOpacity = abs(0.5 - self._toggle_fractional_position) * 2
         else:
             # Override text opacity for disabled toggle.
             textOpacity = 0.5
@@ -207,7 +207,7 @@ class QToggleSwitch(QCheckBox):
         # Draw the handle.
         travelDistance = content_box.width() - diameter
         handlePosX = (
-            content_box.x() + radius + travelDistance * self._handlePositionMultiplier
+            content_box.x() + radius + travelDistance * self._toggle_fractional_position
         )
         handleRadius = self._DEFAULT_HANDLE_REL_SIZE * radius
         painter.drawEllipse(
@@ -222,7 +222,7 @@ class QToggleSwitch(QCheckBox):
         # Ensure we are in the finished animation state if there are
         # signals blocked from the outside!
         if self.signalsBlocked():
-            self._handlePositionMultiplier = 1 if checked else 0
+            self._toggle_fractional_position = 1 if checked else 0
 
             # Ensure the toggle is updated visually even though it
             # seems this is not necessary.
