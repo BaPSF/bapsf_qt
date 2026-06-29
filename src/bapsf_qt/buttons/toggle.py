@@ -116,8 +116,8 @@ class QToggleSwitch(QCheckBox):
     def sizeHint(self):
         max_text_width = float("-inf")
         for text in [self._checked_text, self._unchecked_text]:
-            textSize = self.fontMetrics().size(Qt.TextFlag.TextSingleLine, text)
-            max_text_width = max(max_text_width, textSize.width())
+            text_qsize = self.fontMetrics().size(Qt.TextFlag.TextSingleLine, text)
+            max_text_width = max(max_text_width, text_qsize.width())
 
         # We use _DEFUALT_PREFERRED_HEIGHT to prevent users from
         # shooting themselves in the foot (visually).
