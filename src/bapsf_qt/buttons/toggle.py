@@ -114,10 +114,10 @@ class QToggleSwitch(QCheckBox):
         super().resizeEvent(event)
 
     def sizeHint(self):
-        maxTextWidth = float("-inf")
+        max_text_width = float("-inf")
         for text in [self._checked_text, self._unchecked_text]:
             textSize = self.fontMetrics().size(Qt.TextFlag.TextSingleLine, text)
-            maxTextWidth = max(maxTextWidth, textSize.width())
+            max_text_width = max(max_text_width, textSize.width())
 
         # We use _DEFUALT_PREFERRED_HEIGHT to prevent users from
         # shooting themselves in the foot (visually).
@@ -126,7 +126,7 @@ class QToggleSwitch(QCheckBox):
         # The 1.2 is a magic number creating some padding for the text so
         # that big letters do not overflow the rounded corners.
         return QSize(
-            int(preferredHeight + maxTextWidth * 1.2 + self._DEFAULT_TEXT_SIDE_PADDING),
+            int(preferredHeight + max_text_width * 1.2 + self._DEFAULT_TEXT_SIDE_PADDING),
             preferredHeight,
         )
 
