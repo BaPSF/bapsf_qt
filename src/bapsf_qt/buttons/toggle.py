@@ -85,8 +85,8 @@ class QToggleSwitch(QCheckBox):
         self._animation.setDuration(self._DEFAULT_ANIMATION_DURATION)
 
         # configure self
-        self.setCheckedColor(checked_color)
-        self.setUncheckedColor(unchecked_color)
+        self._checked_setup = self._build_checked_state_setup(checked_color)
+        self._unchecked_setup = self._build_checked_state_setup(unchecked_color)
         self.setCursor(Qt.CursorShape.PointingHandCursor)
         self._updateText()
 
@@ -158,18 +158,18 @@ class QToggleSwitch(QCheckBox):
 
         # Determine used brushes based on check state.
         if self.isChecked():
-            bodyBrush = self._checkedBodyBrush
-            handleBrush = self._checkedHandleBrush
+            body_brush = self._checked_setup["body_brush"]
+            handle_brush = self._checked_setup["handle_brush"]
         else:
-            bodyBrush = self._uncheckedBodyBrush
-            handleBrush = self._uncheckedHandleBrush
+            body_brush = self._unchecked_setup["body_brush"]
+            handle_brush = self._unchecked_setup["handle_brush"]
 
         # Draw the toggle's body.
         painter.setPen(Qt.PenStyle.NoPen)
-        painter.setBrush(bodyBrush)
+        painter.setBrush(body_brush)
         painter.drawRoundedRect(contRect, radius, radius)
-        painter.setPen(QPen(handleBrush.color().darker(110)))
-        painter.setBrush(handleBrush)
+        painter.setPen(QPen(handle_brush.color().darker(110)))
+        painter.setBrush(handle_brush)
 
         # Draw the text.
         painter.save()
@@ -226,13 +226,13 @@ class QToggleSwitch(QCheckBox):
         self.setChecked(checked)
         self._animation.setDuration(self._DEFAULT_ANIMATION_DURATION)
 
-    def setCheckedColor(self, color):
-        self._checkedHandleBrush = QBrush(color)
-        self._checkedBodyBrush = QBrush(color.lighter(170))
-
-    def setUncheckedColor(self, color):
-        self._uncheckedHandleBrush = QBrush(color)
-        self._uncheckedBodyBrush = QBrush(color.lighter(170))
+    @staticmethod
+    def _build_checked_state_setup(color: QColor):
+        return {
+            "color": color,
+            "handle_brush": QBrush(color),
+            "body_brush": QBrush(color.lighter(170)),
+        }
 
 
 class _QToggleSwitchDemo(QMainWindow):
