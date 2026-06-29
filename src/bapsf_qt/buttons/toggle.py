@@ -49,9 +49,7 @@ class QToggleSwitch(QCheckBox):
             (checked_text, unchecked_text),
         ):
             if not isinstance(text, str):
-                raise TypeError(
-                    f"{state} text must be a string, got type {type(text)}."
-                )
+                raise TypeError(f"{state} text must be a string, got type {type(text)}.")
 
         for state, color in zip(
             ("Checked", "Unchecked"),
@@ -110,7 +108,7 @@ class QToggleSwitch(QCheckBox):
         font.setBold(True)
         font.setPixelSize(int(event.size().height() * self._font_height_fill))
         self.setFont(font)
-        
+
         super().resizeEvent(event)
 
     def sizeHint(self):
@@ -127,9 +125,7 @@ class QToggleSwitch(QCheckBox):
         # that big letters do not overflow the rounded corners.
         return QSize(
             int(
-                preferred_height
-                + max_text_width * 1.2
-                + self._DEFAULT_TEXT_SIDE_PADDING
+                preferred_height + max_text_width * 1.2 + self._DEFAULT_TEXT_SIDE_PADDING
             ),
             preferred_height,
         )
