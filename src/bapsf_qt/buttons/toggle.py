@@ -152,8 +152,8 @@ class QToggleSwitch(QCheckBox):
         painter.save()
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-        contRect = self.contentsRect()
-        diameter = contRect.height()
+        content_box = self.contentsRect()
+        diameter = content_box.height()
         radius = diameter / 2
 
         # Determine current text based on handle position
@@ -174,7 +174,7 @@ class QToggleSwitch(QCheckBox):
         # Draw the toggle's body.
         painter.setPen(Qt.PenStyle.NoPen)
         painter.setBrush(body_brush)
-        painter.drawRoundedRect(contRect, radius, radius)
+        painter.drawRoundedRect(content_box, radius, radius)
         painter.setPen(QPen(handle_brush.color().darker(110)))
         painter.setBrush(handle_brush)
 
@@ -185,8 +185,8 @@ class QToggleSwitch(QCheckBox):
             diameter * textPosMultiplier
             + self._DEFAULT_TEXT_SIDE_PADDING * self._handlePositionMultiplier
         )
-        textRectWidth = contRect.width() - diameter - self._DEFAULT_TEXT_SIDE_PADDING
-        textRect = QRect(textRectX, 0, textRectWidth, contRect.height())
+        textRectWidth = content_box.width() - diameter - self._DEFAULT_TEXT_SIDE_PADDING
+        textRect = QRect(textRectX, 0, textRectWidth, content_box.height())
         if self.isEnabled():
             # Trick for fading the text through the handle during transition.
             textOpacity = abs(0.5 - self._handlePositionMultiplier) * 2
@@ -205,13 +205,13 @@ class QToggleSwitch(QCheckBox):
             painter.setBrush(QBrush(newColor))
 
         # Draw the handle.
-        travelDistance = contRect.width() - diameter
+        travelDistance = content_box.width() - diameter
         handlePosX = (
-            contRect.x() + radius + travelDistance * self._handlePositionMultiplier
+            content_box.x() + radius + travelDistance * self._handlePositionMultiplier
         )
         handleRadius = self._DEFAULT_HANDLE_REL_SIZE * radius
         painter.drawEllipse(
-            QPointF(handlePosX, contRect.center().y() + 1), handleRadius, handleRadius
+            QPointF(handlePosX, content_box.center().y() + 1), handleRadius, handleRadius
         )
 
         painter.restore()
