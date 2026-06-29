@@ -159,9 +159,9 @@ class QToggleSwitch(QCheckBox):
         # Determine current text based on handle position
         # during the animation - switch it right in the middle.
         if self._handlePositionMultiplier > 0.5:
-            currentText = self._checked_text
+            current_text = self._checked_text
         else:
-            currentText = self._unchecked_text
+            current_text = self._unchecked_text
 
         # Determine used brushes based on check state.
         if self.isChecked():
@@ -195,7 +195,7 @@ class QToggleSwitch(QCheckBox):
             textOpacity = 0.5
         painter.setBrush(Qt.BrushStyle.NoBrush)
         painter.setPen(QPen(QColor.fromRgbF(0, 0, 0, textOpacity)))
-        painter.drawText(textRect, Qt.AlignmentFlag.AlignCenter, currentText)
+        painter.drawText(textRect, Qt.AlignmentFlag.AlignCenter, current_text)
         painter.restore()
 
         # Adjust the handle drawing brush if the toggle is not enabled.
