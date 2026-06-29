@@ -33,8 +33,8 @@ class QToggleSwitch(QCheckBox):
         self,
         checked_text: str = "",
         unchecked_text: str = "",
-        checkedColor: QColor = QColor(0, 176, 255),
-        uncheckedColor: QColor = QColor(180, 180, 180),
+        checked_color: QColor = QColor(0, 176, 255),
+        unchecked_color: QColor = QColor(180, 180, 180),
         fontHeightRatio: float = 0.5,
         parent: QWidget | None = None,
     ):
@@ -45,8 +45,8 @@ class QToggleSwitch(QCheckBox):
         self._unchecked_text = unchecked_text
         self._fontHeightRatio = fontHeightRatio
 
-        self.setCheckedColor(checkedColor)
-        self.setUncheckedColor(uncheckedColor)
+        self.setCheckedColor(checked_color)
+        self.setUncheckedColor(unchecked_color)
 
         self._handlePositionMultiplier = 0
 
