@@ -120,6 +120,9 @@ class QLogHandler(logging.Handler):
 
         self.signals.blockSignals(b)
 
+    def signalsBlocked(self, /):  # noqa
+        return self.signals.signalsBlocked()
+
 
 class QLogger(QWidget):
     _verbosity = {
