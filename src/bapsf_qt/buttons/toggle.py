@@ -79,7 +79,6 @@ class QToggleSwitch(QCheckBox):
         self._font_height_fill = font_height_fill
 
         self._handlePositionMultiplier = 0
-
         self._animation = QPropertyAnimation(self, b"handlePositionMultiplier")
         self._animation.setEasingCurve(QEasingCurve.Type.InOutCubic)
         self._animation.setDuration(self._DEFAULT_ANIMATION_DURATION)
@@ -87,14 +86,15 @@ class QToggleSwitch(QCheckBox):
         # configure self
         self._checked_setup = self._build_checked_state_setup(checked_color)
         self._unchecked_setup = self._build_checked_state_setup(unchecked_color)
+        self._handle_check_state_text()
         self.setCursor(Qt.CursorShape.PointingHandCursor)
-        self._updateText()
 
         # connect signals
         self.stateChanged.connect(self._onStateChanged)
 
-    def _updateText(self):
-        self.setText(self._checked_text if self.isChecked() else self._unchecked_text)
+    def _handle_check_state_text(self):
+        text = self._checked_text if self.isChecked() else self._unchecked_text
+        self.setText(text)
 
     @Property(float)
     def handlePositionMultiplier(self):
@@ -219,7 +219,7 @@ class QToggleSwitch(QCheckBox):
             # Ensure the toggle is updated visually even though it
             # seems this is not necessary.
             self.update()
-        self._updateText()
+        self._handle_check_state_text()
 
     @staticmethod
     def _build_checked_state_setup(color: QColor):
