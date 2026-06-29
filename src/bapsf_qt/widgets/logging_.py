@@ -299,6 +299,13 @@ class QLogger(QWidget):
 
         self.logger.info(f"Changed log verbosity to {vkey} ({self._verbosity[vkey]}).")
 
+    def blockSignals(self, b: bool, /):
+        if not isinstance(b, bool):
+            return
+
+        self._handler.blockSignals(b)
+        super().blockSignals(b)
+
 
 class DemoQLogger(QMainWindow):
     def __init__(self):
