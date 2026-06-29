@@ -83,10 +83,11 @@ class QLogHandlerSignals(QObject):
 
 
 class QLogHandler(logging.Handler):
-    signals = QLogHandlerSignals()
 
     def __init__(self, log_widget: QTextEdit | QPlainTextEdit, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.signals = QLogHandlerSignals()
 
         if not isinstance(log_widget, (QTextEdit, QPlainTextEdit)):
             raise TypeError(
