@@ -132,6 +132,7 @@ class QToggleSwitch(QCheckBox):
 
     def hitButton(self, pos: QPoint):
         """Define the clickable area of the checkbox."""
+        # Utilized by parent class AbstractButton
         return self.contentsRect().contains(pos)
 
     def _onStateChanged(self, state):
