@@ -24,6 +24,30 @@ if TYPE_CHECKING:
 
 
 class QToggleSwitch(QCheckBox):
+    """
+    An animated toggle switch.
+
+    Parameters
+    ----------
+    checked_text: str
+        Text to be displayed when widget is in the checked state.
+
+    unchecked_text: str
+        Text to be displayed when widget is in the unchecked state.
+
+    checked_color: `QColor`
+        Display color when widget is in the checked state.
+
+    unchecked_color: `QColor`
+        Display color when widget is in the unchecked state.
+
+    font_height_fill: `float`
+        (DEFAULT: ``0.5``) Fractional fill of the text height to the
+        widget height.
+
+    parent: `QWidget` | None
+        Parent widget to this widget.
+    """
     # Adapted from Martin Čáp
     # github: https://github.com/martincap94
     # blog: https://www.martincap.io/posts/qtoggle/
