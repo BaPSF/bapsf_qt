@@ -32,7 +32,7 @@ class QToggleSwitch(QCheckBox):
     def __init__(
         self,
         checked_text: str = "",
-        uncheckedText: str = "",
+        unchecked_text: str = "",
         checkedColor: QColor = QColor(0, 176, 255),
         uncheckedColor: QColor = QColor(180, 180, 180),
         fontHeightRatio: float = 0.5,
@@ -42,7 +42,7 @@ class QToggleSwitch(QCheckBox):
         assert 0 < fontHeightRatio <= 1
 
         self._checked_text = checked_text
-        self._uncheckedText = uncheckedText
+        self._unchecked_text = unchecked_text
         self._fontHeightRatio = fontHeightRatio
 
         self.setCheckedColor(checkedColor)
@@ -59,7 +59,7 @@ class QToggleSwitch(QCheckBox):
         self._updateText()
 
     def _updateText(self):
-        self.setText(self._checked_text if self.isChecked() else self._uncheckedText)
+        self.setText(self._checked_text if self.isChecked() else self._unchecked_text)
 
     @Property(float)
     def handlePositionMultiplier(self):
@@ -78,7 +78,7 @@ class QToggleSwitch(QCheckBox):
 
     def sizeHint(self):
         maxTextWidth = float("-inf")
-        for text in [self._checked_text, self._uncheckedText]:
+        for text in [self._checked_text, self._unchecked_text]:
             textSize = self.fontMetrics().size(Qt.TextFlag.TextSingleLine, text)
             maxTextWidth = max(maxTextWidth, textSize.width())
 
@@ -119,7 +119,7 @@ class QToggleSwitch(QCheckBox):
         if self._handlePositionMultiplier > 0.5:
             currentText = self._checked_text
         else:
-            currentText = self._uncheckedText
+            currentText = self._unchecked_text
 
         # Determine used brushes based on check state.
         if self.isChecked():
