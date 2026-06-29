@@ -76,18 +76,20 @@ class QToggleSwitch(QCheckBox):
         self._unchecked_text = unchecked_text
         self._font_height_fill = font_height_fill
 
-        self.setCheckedColor(checked_color)
-        self.setUncheckedColor(unchecked_color)
-
         self._handlePositionMultiplier = 0
 
         self._animation = QPropertyAnimation(self, b"handlePositionMultiplier")
         self._animation.setEasingCurve(QEasingCurve.Type.InOutCubic)
         self._animation.setDuration(self._DEFAULT_ANIMATION_DURATION)
 
-        self.stateChanged.connect(self._onStateChanged)
+        # configure self
+        self.setCheckedColor(checked_color)
+        self.setUncheckedColor(unchecked_color)
         self.setCursor(Qt.CursorShape.PointingHandCursor)
         self._updateText()
+
+        # connect signals
+        self.stateChanged.connect(self._onStateChanged)
 
     def _updateText(self):
         self.setText(self._checked_text if self.isChecked() else self._unchecked_text)
