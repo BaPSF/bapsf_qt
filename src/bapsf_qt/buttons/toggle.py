@@ -31,7 +31,7 @@ class QToggleSwitch(QCheckBox):
 
     def __init__(
         self,
-        checkedText: str = "",
+        checked_text: str = "",
         uncheckedText: str = "",
         checkedColor: QColor = QColor(0, 176, 255),
         uncheckedColor: QColor = QColor(180, 180, 180),
@@ -41,7 +41,7 @@ class QToggleSwitch(QCheckBox):
         super().__init__(parent=parent)
         assert 0 < fontHeightRatio <= 1
 
-        self._checkedText = checkedText
+        self._checked_text = checked_text
         self._uncheckedText = uncheckedText
         self._fontHeightRatio = fontHeightRatio
 
@@ -59,7 +59,7 @@ class QToggleSwitch(QCheckBox):
         self._updateText()
 
     def _updateText(self):
-        self.setText(self._checkedText if self.isChecked() else self._uncheckedText)
+        self.setText(self._checked_text if self.isChecked() else self._uncheckedText)
 
     @Property(float)
     def handlePositionMultiplier(self):
@@ -78,7 +78,7 @@ class QToggleSwitch(QCheckBox):
 
     def sizeHint(self):
         maxTextWidth = float("-inf")
-        for text in [self._checkedText, self._uncheckedText]:
+        for text in [self._checked_text, self._uncheckedText]:
             textSize = self.fontMetrics().size(Qt.TextFlag.TextSingleLine, text)
             maxTextWidth = max(maxTextWidth, textSize.width())
 
@@ -117,7 +117,7 @@ class QToggleSwitch(QCheckBox):
         # Determine current text based on handle position
         # during the animation - switch it right in the middle.
         if self._handlePositionMultiplier > 0.5:
-            currentText = self._checkedText
+            currentText = self._checked_text
         else:
             currentText = self._uncheckedText
 
