@@ -221,11 +221,6 @@ class QToggleSwitch(QCheckBox):
             self.update()
         self._updateText()
 
-    def setCheckedNoAnim(self, checked):
-        self._animation.setDuration(0)
-        self.setChecked(checked)
-        self._animation.setDuration(self._DEFAULT_ANIMATION_DURATION)
-
     @staticmethod
     def _build_checked_state_setup(color: QColor):
         return {
