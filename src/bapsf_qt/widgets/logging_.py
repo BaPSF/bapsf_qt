@@ -386,14 +386,14 @@ class DemoQLogger(QMainWindow):
     def _define_layout(self):
 
         # first row: Title
-        label = QLabel("DEMO    QLogger")
+        label = QLabel("DEMO    QLogger", parent=self)
         font = label.font()
         font.setPointSize(14)
         font.setBold(True)
         label.setFont(font)
         header_label = label
 
-        label = QLabel("Message:  ")
+        label = QLabel("Message:  ", parent=self)
         font = label.font()
         font.setPointSize(12)
         label.setFont(font)
