@@ -56,6 +56,7 @@ class QToggleSwitch(QCheckBox):
     _DEFAULT_HANDLE_REL_SIZE = 0.82
     _DEFAULT_PREFERRED_HEIGHT = 20
     _DEFAULT_TEXT_SIDE_PADDING = 8
+    _DEFAULT_DOT_PADDING = 0
 
     def __init__(
         self,
@@ -173,7 +174,7 @@ class QToggleSwitch(QCheckBox):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         content_box = self.contentsRect()
-        diameter = content_box.height()
+        diameter = content_box.height() - self._DEFAULT_DOT_PADDING
         radius = diameter / 2
 
         # Determine current text based on handle position
