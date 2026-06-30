@@ -318,7 +318,6 @@ class _QToggleSwitchDemo(QMainWindow):
 
     def _init_toggle_switch(self):
         toggle = QToggleSwitch("ON", "off", parent=self)
-        # toggle.setFixedWidth(60)
         toggle.setFixedHeight(48)
         return toggle
 
