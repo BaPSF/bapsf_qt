@@ -155,7 +155,7 @@ class QToggleSwitch(QCheckBox):
         # that big letters do not overflow the rounded corners.
         return QSize(
             int(
-                preferred_height + max_text_width * 1.2 + self._DEFAULT_TEXT_SIDE_PADDING
+                preferred_height + max_text_width * 1.2 + self._settings["text_padding"]
             ),
             preferred_height,
         )
@@ -208,9 +208,11 @@ class QToggleSwitch(QCheckBox):
         painter.save()
         text_box_x = int(
             diameter * (1.0 - self._toggle_fractional_position)
-            + self._DEFAULT_TEXT_SIDE_PADDING * self._toggle_fractional_position
+            + self._settings["text_padding"] * self._toggle_fractional_position
         )
-        text_box_width = content_box.width() - diameter - self._DEFAULT_TEXT_SIDE_PADDING
+        text_box_width = int(
+            content_box.width() - diameter - self._settings["text_padding"]
+        )
         text_box = QRect(text_box_x, 0, text_box_width, content_box.height())
         if self.isEnabled():
             # Trick for fading the text through the handle during transition.
@@ -274,6 +276,13 @@ class QToggleSwitch(QCheckBox):
 
         self._settings["animation_duration"] = time
         self._animation.setDuration(time)  # in msec
+
+    def set_text_padding(self, padding: int):
+        if not isinstance(padding, int) or padding < 0:
+            return
+
+        self._settings["text_padding"] = padding
+        self.update()
 
 
 class _QToggleSwitchDemo(QMainWindow):
