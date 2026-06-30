@@ -11,8 +11,10 @@ __all__ = [
     "QTAIconLabel",
     "QLogHandler",
     "QLogger",
+    "QVCollapsible",
 ]
 
+from bapsf_qt.widgets.collapsible import QVCollapsible
 from bapsf_qt.widgets.logging_ import QLogger, QLogHandler
 from bapsf_qt.widgets.styling import HLinePlain, QTAIconLabel, VLinePlain
 from bapsf_qt.widgets.text import QLineEditPayload
