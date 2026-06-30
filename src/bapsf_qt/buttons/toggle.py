@@ -53,7 +53,7 @@ class QToggleSwitch(QCheckBox):
     # blog: https://www.martincap.io/posts/qtoggle/
 
     _DEFAULT_ANIMATION_DURATION = 200  # in msec
-    _DEFAULT_HANDLE_REL_SIZE = 0.82
+    _DEFAULT_DOT_REL_SIZE = 0.82
     _DEFAULT_PREFERRED_HEIGHT = 20
     _DEFAULT_TEXT_SIDE_PADDING = 8
     _DEFAULT_DOT_PADDING = 0
@@ -229,7 +229,7 @@ class QToggleSwitch(QCheckBox):
         handle_xpos = (
             content_box.x() + radius + travel_distance * self._toggle_fractional_position
         )
-        handle_radius = self._DEFAULT_HANDLE_REL_SIZE * radius
+        handle_radius = self._DEFAULT_DOT_REL_SIZE * radius
         painter.drawEllipse(
             QPointF(handle_xpos, content_box.center().y() + 1),
             handle_radius,
