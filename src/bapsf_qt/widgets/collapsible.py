@@ -129,7 +129,6 @@ class QVCollapsibleHeaderButton(QPushButton):
         font = self.button_text.font()
         metrics = QFontMetrics(font)
         size = metrics.height()
-        print(f"font size is {size}")
         return size
 
     def _handle_toggle(self):
