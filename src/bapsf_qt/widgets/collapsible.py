@@ -141,6 +141,7 @@ class QVCollapsibleHeaderButton(QPushButton):
 
     def setFont(self, arg__1, /):
         self.button_text.setFont(arg__1)
+        self._handle_toggle()
 
     def setText(self, text: str, /):
         self.button_text.setText(text)
