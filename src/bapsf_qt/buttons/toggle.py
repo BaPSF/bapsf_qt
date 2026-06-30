@@ -265,6 +265,16 @@ class QToggleSwitch(QCheckBox):
             "body_brush": QBrush(color.lighter(170)),
         }
 
+    def set_animation_duration(self, time: int):
+        if not isinstance(time, int):
+            return
+
+        if time <= self._DEFAULT_ANIMATION_DURATION:
+            return
+
+        self._settings["animation_duration"] = time
+        self._animation.setDuration(time)  # in msec
+
 
 class _QToggleSwitchDemo(QMainWindow):
 
