@@ -96,6 +96,12 @@ class QToggleSwitch(QCheckBox):
                 f"range (0, 1], got {font_height_fill}."
             )
 
+        self._settings = {
+            "animation_duration": self._DEFAULT_ANIMATION_DURATION,
+            "dot_size": self._DEFAULT_DOT_REL_SIZE,
+            "text_padding": self._DEFAULT_TEXT_SIDE_PADDING,
+        }
+
         self._checked_text = checked_text
         self._unchecked_text = unchecked_text
         self._font_height_fill = font_height_fill
