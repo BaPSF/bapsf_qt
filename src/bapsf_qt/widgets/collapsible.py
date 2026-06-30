@@ -148,7 +148,12 @@ class QVCollapsibleHeaderButton(QPushButton):
 
 
 class QVCollapsible(QWidget):
-
+    """
+    A vertically collapsible widget.  The widget has two parts to it:
+    the ``headder_toggle`` and ``content_widget``.  The
+    ``header_toggle`` is the clickable header the collapses or shows the
+    ``content_widget``.
+    """
     def __init__(self, header_text: str, parent: QWidget | None = None):
         super().__init__(parent)
 
