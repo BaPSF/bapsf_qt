@@ -29,6 +29,8 @@ from PySide6.QtWidgets import (
 )
 from typing import List
 
+from bapsf_qt.buttons.toggle import QToggleSwitch
+
 
 class _BaseFormatter(logging.Formatter):
     def __init__(
@@ -323,6 +325,9 @@ class DemoQLogger(QMainWindow):
         self.message_input = self._init_message_input()
         self.log_level_select = self._init_log_level_select()
         self.auto_log_cb = self._init_auto_log_cb()
+        self.signal_block_toggle = self._init_signal_block_toggle()
+
+        # Setup auto log timer
         self.auto_log_timer = QTimer(parent=self, singleShot=True)
         self.auto_log_interval = 100  # in msec
         self.auto_log_counter = 1
@@ -372,10 +377,20 @@ class DemoQLogger(QMainWindow):
         auto_log_cb.setCheckState(Qt.CheckState.Unchecked)
         return auto_log_cb
 
+    def _init_signal_block_toggle(self):
+        toggle = QToggleSwitch("ON", "off", font_height_fill=0.6, parent=self)
+        toggle.set_dot_relative_size(0.6)
+        toggle.setFixedHeight(24)
+        toggle.setFixedWidth(72)
+        return toggle
+
     def _connect_signals(self) -> None:
         self.message_input.returnPressed.connect(self.enter_log)
         self.auto_log_timer.timeout.connect(self._make_auto_log_entry)
         self.auto_log_cb.checkStateChanged.connect(self.start_stop_auto_log)
+        self.signal_block_toggle.checkStateChanged.connect(
+            self._handle_signal_block_toggle
+        )
 
     def _define_main_window(self):
         self.setWindowTitle("DEMO QLogger")
@@ -399,12 +414,21 @@ class DemoQLogger(QMainWindow):
         label.setFont(font)
         message_label = label
 
+        label = QLabel("Block Signals", parent=self)
+        font = label.font()
+        font.setPointSize(12)
+        label.setFont(font)
+        signal_block_label = label
+
         cb_layout = QHBoxLayout()
         cb_layout.setContentsMargins(0, 0, 0, 0)
         cb_layout.addSpacerItem(
             QSpacerItem(78, 0, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         )
         cb_layout.addWidget(self.auto_log_cb)
+        cb_layout.addSpacing(48)
+        cb_layout.addWidget(signal_block_label, alignment=Qt.AlignmentFlag.AlignRight)
+        cb_layout.addWidget(self.signal_block_toggle)
         cb_layout.addStretch(1)
 
         input_layout = QHBoxLayout()
@@ -484,6 +508,11 @@ class DemoQLogger(QMainWindow):
     @property
     def logger(self) -> logging.Logger:
         return self._logger
+
+    @Slot()
+    def _handle_signal_block_toggle(self):
+        check_state = self.signal_block_toggle.isChecked()
+        self.qlogger.blockSignals(check_state)
 
     @Slot()
     def _make_auto_log_entry(self):
