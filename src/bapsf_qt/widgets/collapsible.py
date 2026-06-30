@@ -154,6 +154,7 @@ class QVCollapsible(QWidget):
     ``header_toggle`` is the clickable header the collapses or shows the
     ``content_widget``.
     """
+
     def __init__(self, header_text: str, parent: QWidget | None = None):
         super().__init__(parent)
 
