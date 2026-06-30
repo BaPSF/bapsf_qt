@@ -48,6 +48,7 @@ class QToggleSwitch(QCheckBox):
     parent: `QWidget` | None
         Parent widget to this widget.
     """
+
     # Adapted from Martin Čáp
     # github: https://github.com/martincap94
     # blog: https://www.martincap.io/posts/qtoggle/
@@ -154,9 +155,7 @@ class QToggleSwitch(QCheckBox):
         # The 1.2 is a magic number creating some padding for the text so
         # that big letters do not overflow the rounded corners.
         return QSize(
-            int(
-                preferred_height + max_text_width * 1.2 + self._settings["text_padding"]
-            ),
+            int(preferred_height + max_text_width * 1.2 + self._settings["text_padding"]),
             preferred_height,
         )
 
