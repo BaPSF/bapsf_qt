@@ -268,10 +268,7 @@ class QToggleSwitch(QCheckBox):
         }
 
     def set_animation_duration(self, time: int):
-        if not isinstance(time, int):
-            return
-
-        if time <= self._DEFAULT_ANIMATION_DURATION:
+        if not isinstance(time, int) or time <= self._DEFAULT_ANIMATION_DURATION:
             return
 
         self._settings["animation_duration"] = time
