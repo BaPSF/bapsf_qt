@@ -253,7 +253,7 @@ class _QVCollapsibleDemo(QMainWindow):
         return layout
 
     def _define_main_window(self):
-        self.setWindowTitle("DEMO QToggleSwitch")
+        self.setWindowTitle("DEMO QVCollapsible")
         self.resize(300, 150)
         self.setMinimumHeight(200)
         self.setContentsMargins(12, 12, 12, 12)
