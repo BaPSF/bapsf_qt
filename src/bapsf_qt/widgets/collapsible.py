@@ -2,6 +2,7 @@
 Module the defines collapsible widgets.  These widgets have a content
 area that can be hidded or shown by clicking its header.
 """
+
 __all__ = ["QVCollapsible"]
 
 from PySide6.QtCore import Qt
