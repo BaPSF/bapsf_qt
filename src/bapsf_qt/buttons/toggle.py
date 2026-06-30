@@ -98,7 +98,7 @@ class QToggleSwitch(QCheckBox):
 
         self._settings = {
             "animation_duration": self._DEFAULT_ANIMATION_DURATION,
-            "dot_size": self._DEFAULT_DOT_REL_SIZE,
+            "dot_relative_size": self._DEFAULT_DOT_REL_SIZE,
             "text_padding": self._DEFAULT_TEXT_SIDE_PADDING,
         }
 
@@ -236,7 +236,7 @@ class QToggleSwitch(QCheckBox):
         handle_xpos = (
             content_box.x() + radius + travel_distance * self._toggle_fractional_position
         )
-        handle_radius = self._DEFAULT_DOT_REL_SIZE * radius
+        handle_radius = self._settings["dot_relative_size"] * radius
         painter.drawEllipse(
             QPointF(handle_xpos, content_box.center().y() + 1),
             handle_radius,
@@ -273,6 +273,13 @@ class QToggleSwitch(QCheckBox):
 
         self._settings["animation_duration"] = time
         self._animation.setDuration(time)  # in msec
+
+    def set_dot_relative_size(self, relative_size: float):
+        if not isinstance(relative_size, float) or not (0 < relative_size < 1):
+            return
+
+        self._settings["dot_relative_size"] = relative_size
+        self.update()
 
     def set_text_padding(self, padding: int):
         if not isinstance(padding, int) or padding < 0:
