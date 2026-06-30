@@ -4,15 +4,15 @@ __all__ = ["QVCollapsible"]
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFontMetrics
 from PySide6.QtWidgets import (
-    QWidget,
-    QPushButton,
-    QVBoxLayout,
-    QMainWindow,
-    QLayout,
-    QSizePolicy,
-    QLabel,
     QHBoxLayout,
-    QSpacerItem
+    QLabel,
+    QLayout,
+    QMainWindow,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+    QWidget,
 )
 
 from bapsf_qt.buttons import StyleButton
